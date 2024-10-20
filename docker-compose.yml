@@ -1,4 +1,4 @@
-version: "3"
+version: "3.8"
 
 services:
   frontend:
@@ -12,6 +12,15 @@ services:
       - NODE_ENV=development
     ports:
       - "3000:3000"
+    develop:
+      watch:
+        - path: ./saxonstore-frontend/package.json
+          action: rebuild
+        - path: ./saxonstore-frontend/package-lock.json
+          action: rebuild
+        - path: ./saxonstore-frontend
+          target: /app
+          action: sync
     depends_on:
       - backend
 
