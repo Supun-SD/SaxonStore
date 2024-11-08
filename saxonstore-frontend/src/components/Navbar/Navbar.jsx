@@ -10,8 +10,8 @@ function Navbar() {
 
   return (
     <div>
-      <header className="fixed inset-0 flex h-20 bg-white text-[15px] shadow-lg">
-        <nav className="mx-auto flex w-full max-w-7xl items-center justify-between px-3.5">
+      <header className="fixed inset-0 z-50 flex h-20 bg-white text-[15px] shadow-lg">
+        <nav className="mx-auto flex w-full max-w-7xl items-center justify-between">
           <ul className="hidden gap-x-4 lg:flex">
             {Menus.map((menu) => (
               <DesktopMenu menu={menu} key={menu.name} />
