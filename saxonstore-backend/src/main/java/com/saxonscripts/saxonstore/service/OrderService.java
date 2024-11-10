@@ -1,6 +1,7 @@
 package com.saxonscripts.saxonstore.service;
 
 import com.saxonscripts.saxonstore.dto.OrderDTO;
+import com.saxonscripts.saxonstore.exception.ResourceNotFoundException;
 import com.saxonscripts.saxonstore.model.Order;
 import com.saxonscripts.saxonstore.model.OrderProduct;
 import com.saxonscripts.saxonstore.repo.OrderRepo;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
 
 @Service
 public class OrderService {
@@ -43,7 +43,6 @@ public class OrderService {
         return modelMapper.map(savedOrder, OrderDTO.class);
     }
 
-
     public List<OrderDTO> getAllOrders() {
         List<Order> orders = orderRepo.findAll();
         return modelMapper.map(orders, new TypeToken<List<OrderDTO>>(){}.getType());
@@ -51,13 +50,16 @@ public class OrderService {
 
     public List<OrderDTO> getOrdersByCustomerId(String customerId) {
         List<Order> orders = orderRepo.findByCustomerId(customerId);
+        if (orders.isEmpty()) {
+            throw new ResourceNotFoundException("No orders found for customer with ID: " + customerId);
+        }
         return modelMapper.map(orders, new TypeToken<List<OrderDTO>>(){}.getType());
     }
 
     @Transactional
     public OrderDTO updateOrderStatus(int orderNo, String status) {
         Order order = orderRepo.findById(orderNo)
-                .orElseThrow(() -> new RuntimeException("Order not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Order not found with order number: " + orderNo));
         order.setStatus(status);
         Order updatedOrder = orderRepo.save(order);
         return modelMapper.map(updatedOrder, OrderDTO.class);
