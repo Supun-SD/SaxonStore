@@ -17,4 +17,10 @@ public class User {
     private int id;
     private String firstName;
     private String lastName;
+    private String username;
+    private String email;
+    private String password;
+    private String role;
+    private String phone;
+    private String address;
 }

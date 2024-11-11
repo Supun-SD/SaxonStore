@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @RestController
 @CrossOrigin
@@ -20,5 +23,10 @@ public class UserController {
     @GetMapping("/getUsers")
     public List<UserDTO> getUsers(){
         return userService.getAllUsers();
+    }
+
+    @PostMapping("/createUser")
+    public UserDTO createUsers(@RequestBody UserDTO userDTO) {
+        return userService.createUser(userDTO);
     }
 }
