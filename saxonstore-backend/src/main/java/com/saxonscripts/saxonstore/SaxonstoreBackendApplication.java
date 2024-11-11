@@ -18,9 +18,4 @@ public class SaxonstoreBackendApplication {
 	public ModelMapper modelMapper(){
 		return new ModelMapper();
 	}
-
-	// @Bean
-    // public PasswordEncoder passwordEncoder() {
-    //     return new BCryptPasswordEncoder();
-    // }
 }
