@@ -1,7 +1,9 @@
 package com.saxonscripts.saxonstore.service;
 
+import com.saxonscripts.saxonstore.dto.DeliveryDTO;
 import com.saxonscripts.saxonstore.dto.OrderDTO;
 import com.saxonscripts.saxonstore.exception.ResourceNotFoundException;
+import com.saxonscripts.saxonstore.model.Delivery;
 import com.saxonscripts.saxonstore.model.Order;
 import com.saxonscripts.saxonstore.model.OrderProduct;
 import com.saxonscripts.saxonstore.repo.OrderRepo;
@@ -38,10 +40,16 @@ public class OrderService {
             return orderProduct;
         }).toList();
 
+        Delivery delivery = modelMapper.map(orderDTO.getDelivery(), Delivery.class);
+        delivery.setOrder(order);
+
+        order.setDelivery(delivery);
         order.setOrderProducts(orderProducts);
+
         Order savedOrder = orderRepo.save(order);
         return modelMapper.map(savedOrder, OrderDTO.class);
     }
+
 
     public List<OrderDTO> getAllOrders() {
         List<Order> orders = orderRepo.findAll();

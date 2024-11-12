@@ -29,4 +29,7 @@ public class Order {
     private List<OrderProduct> orderProducts;
 
     private String status;
+
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Delivery delivery;
 }

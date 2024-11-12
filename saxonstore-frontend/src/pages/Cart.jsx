@@ -45,7 +45,7 @@ function Cart() {
           </div>
           <div className="mt-8 px-6">
             {cartItems.map((item, index) => (
-              <React.Fragment key={item.id}>
+              <React.Fragment key={item.productVariantId}>
                 <CartItem item={item} />
                 {index < cartItems.length - 1 && (
                   <hr className="my-4 border-t border-gray-300" />

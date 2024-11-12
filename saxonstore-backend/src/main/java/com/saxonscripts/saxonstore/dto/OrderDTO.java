@@ -16,4 +16,5 @@ public class OrderDTO {
     private double totalAmount;
     private String status;
     private List<OrderProductDTO> orderProducts;
+    private  DeliveryDTO delivery;
 }
