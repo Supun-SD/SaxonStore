@@ -33,7 +33,7 @@ const cartSlice = createSlice({
       const product = action.payload;
       const existingItem = state.cartItems.find(
         (item) =>
-          item.id === product.id &&
+          item.productVariantId === product.productVariantId &&
           item.size === product.size &&
           item.color === product.color,
       );
