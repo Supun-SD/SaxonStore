@@ -1,6 +1,4 @@
-package com.saxonscripts.saxonstore.model.Product;
-import com.saxonscripts.saxonstore.model.ProductImage.ProductImage;
-import com.saxonscripts.saxonstore.model.ProductVariant.ProductVariant;
+package com.saxonscripts.saxonstore.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,17 +19,20 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "product_name", nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "product_description", length = 500)
+    @Column(name = "description", length = 500)
     private String description;
 
-    @Column(name = "product_price", nullable = false)
+    @Column(name = "price", nullable = false)
     private BigDecimal price;
 
-    @Column(name = "category_id")
-    private Long categoryId;
+    @Column(name = "category", nullable = false)
+    private String category;
+
+    @Column(name = "subcategory")
+    private String subcategory;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;

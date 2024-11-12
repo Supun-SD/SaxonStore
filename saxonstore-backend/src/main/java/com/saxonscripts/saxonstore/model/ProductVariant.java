@@ -1,18 +1,16 @@
-package com.saxonscripts.saxonstore.model.ProductImage;
+package com.saxonscripts.saxonstore.model;
 
-import com.saxonscripts.saxonstore.model.Color.Color;
-import com.saxonscripts.saxonstore.model.Product.Product;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "product_images")
+@Table(name = "product_variants")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductImage {
+public class ProductVariant {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,10 +24,14 @@ public class ProductImage {
     @JoinColumn(name = "color_id", nullable = false)
     private Color color;
 
-    @Column(name = "image_url", nullable = false)
-    private String imageUrl;
+    @ManyToOne
+    @JoinColumn(name = "size_id", nullable = false)
+    private Size size;
 
-    @Column(name = "is_primary")
-    private Boolean isPrimary;
+    @Column(name = "quantity", nullable = false)
+    private int quantity;
+
+    @Column(name = "sku", unique = true)
+    private String sku;
 }
 

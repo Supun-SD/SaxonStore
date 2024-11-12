@@ -1,6 +1,4 @@
-package com.saxonscripts.saxonstore.model.Color;
-import com.saxonscripts.saxonstore.model.ProductImage.ProductImage;
-import com.saxonscripts.saxonstore.model.ProductVariant.ProductVariant;
+package com.saxonscripts.saxonstore.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

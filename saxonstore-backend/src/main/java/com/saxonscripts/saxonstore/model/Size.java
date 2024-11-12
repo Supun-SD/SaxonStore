@@ -1,6 +1,6 @@
-package com.saxonscripts.saxonstore.model.Size;
+package com.saxonscripts.saxonstore.model;
 
-import com.saxonscripts.saxonstore.model.ProductVariant.ProductVariant;
+import com.saxonscripts.saxonstore.model.ProductVariant;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
