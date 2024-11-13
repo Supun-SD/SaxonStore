@@ -8,8 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductImageDTO {
-    private Long id;
-    private ColorDTO color;
+    private int id;
     private String imageUrl;
     private boolean isPrimary;
 }
