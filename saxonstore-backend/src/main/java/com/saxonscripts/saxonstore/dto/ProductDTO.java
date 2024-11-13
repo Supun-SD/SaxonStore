@@ -20,7 +20,7 @@ public class ProductDTO {
     private String subcategory;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private List<ProductVariantDTO> productVariants;
-    private List<ProductImageDTO> productImages;
+    private List<ProductVariantDTO> variants;
+    private List<ProductImageDTO> images;
 }
 

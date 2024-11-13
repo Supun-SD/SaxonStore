@@ -15,18 +15,11 @@ public class Color {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
-    @Column(name = "name", nullable = false)
+    @Column( nullable = false)
     private String name;
 
-    @Column(name = "hex_value")
     private String hexValue;
-
-    @OneToMany(mappedBy = "color", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ProductVariant> productVariants;
-
-    @OneToMany(mappedBy = "color", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ProductImage> productImages;
 }
 

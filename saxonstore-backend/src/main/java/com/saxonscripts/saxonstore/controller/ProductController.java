@@ -33,7 +33,7 @@ public class ProductController {
     @GetMapping("/{productId}")
     public ResponseWrapper<ProductDTO> getProductById(@PathVariable Long productId) {
         ProductDTO product = productService.getProductById(productId);
-        return new ResponseWrapper<>(200, "SUCCESS", "Product details", product);
+        return new ResponseWrapper<>(200, "SUCCESS", "Product: " + productId, product);
     }
 
     // Delete product by ID
@@ -44,8 +44,10 @@ public class ProductController {
     }
 
     // Update product by ID
-    @PutMapping("/{productId}")
-    public ResponseWrapper<ProductDTO> updateProduct(@PathVariable Long productId, @RequestBody ProductDTO productDTO) {
+    @PatchMapping("/update/{productId}")
+    public ResponseWrapper<ProductDTO> updateProduct(
+            @PathVariable("productId") Long productId,
+            @RequestBody ProductDTO productDTO) {
         ProductDTO updatedProduct = productService.updateProduct(productId, productDTO);
         return new ResponseWrapper<>(200, "SUCCESS", "Product updated successfully", updatedProduct);
     }
@@ -55,7 +57,7 @@ public class ProductController {
     public ResponseWrapper<List<ProductDTO>> getProductsByCategory(
             @RequestParam("category") String category,
             @RequestParam("subcategory") String subcategory) {
-        List<ProductDTO> products = productService.getProductsByCategoryAndSubcategory(category, subcategory);
+        List<ProductDTO> products = productService.getProductsByCategory(category, subcategory);
         return new ResponseWrapper<>(200, "SUCCESS", "Products in category " + category + " and subcategory " + subcategory, products);
     }
 }

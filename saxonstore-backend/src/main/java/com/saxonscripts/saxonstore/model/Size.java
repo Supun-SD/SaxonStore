@@ -1,6 +1,5 @@
 package com.saxonscripts.saxonstore.model;
 
-import com.saxonscripts.saxonstore.model.ProductVariant;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,12 +15,9 @@ public class Size {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
-    @Column(name = "name", nullable = false)
+    @Column(nullable = false)
     private String name;
-
-    @OneToMany(mappedBy = "size", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ProductVariant> productVariants;
 }
 

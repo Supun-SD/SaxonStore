@@ -28,10 +28,10 @@ public class ProductVariant {
     @JoinColumn(name = "size_id", nullable = false)
     private Size size;
 
-    @Column(name = "quantity", nullable = false)
+    @Column(nullable = false)
     private int quantity;
 
-    @Column(name = "sku", unique = true)
-    private String sku;
+    @Column(unique = true, nullable = true)
+    private String sku = null;
 }
 
