@@ -3,6 +3,8 @@ package com.saxonscripts.saxonstore.controller;
 import com.saxonscripts.saxonstore.dto.UserDTO;
 import com.saxonscripts.saxonstore.dto.LoginRequestDTO;
 import com.saxonscripts.saxonstore.service.UserService;
+import com.saxonscripts.saxonstore.utils.JWTUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -43,7 +45,10 @@ public class UserController {
     public ResponseEntity<String> login(@RequestBody LoginRequestDTO loginRequestDTO) {
         boolean isAuthenticated = userService.login(loginRequestDTO);
         if (isAuthenticated) {
-            return ResponseEntity.ok("Login successful");
+            // Generate JWT token
+            String token = JWTUtils.generateToken(loginRequestDTO.getEmail());
+            // Return token in the response
+            return ResponseEntity.ok().body(token);
         } else {
             return ResponseEntity.status(401).body("Invalid email or password");
         }
