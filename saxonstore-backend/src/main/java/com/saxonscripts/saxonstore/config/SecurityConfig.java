@@ -17,7 +17,7 @@ import com.saxonscripts.saxonstore.repo.UserRepo;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.http.HttpStatus;
 
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,7 +58,7 @@ public class SecurityConfig {
             return new org.springframework.security.core.userdetails.User(
                 user.getEmail(),
                 user.getPassword(),
-                List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole()))
+                new ArrayList<>()
             );
         };
     }
