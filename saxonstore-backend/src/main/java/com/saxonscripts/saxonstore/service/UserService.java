@@ -38,7 +38,11 @@ public class UserService {
         return modelMapper.map(userList, new TypeToken<List<UserDTO>>(){}.getType());
     }
 
-    public UserDTO createUser(UserDTO userDTO){
+    public UserDTO createUser(UserDTO userDTO) {
+        Optional<User> existingUser = userRepo.findByEmail(userDTO.getEmail());
+        if (existingUser.isPresent()) {
+            throw new RuntimeException("User already exists with email: " + userDTO.getEmail());
+        }
         User user = modelMapper.map(userDTO, User.class);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user = userRepo.save(user);
