@@ -4,10 +4,7 @@ import com.saxonscripts.saxonstore.dto.ProductDTO;
 import com.saxonscripts.saxonstore.dto.ProductVariantDTO;
 import com.saxonscripts.saxonstore.exception.ResourceNotFoundException;
 import com.saxonscripts.saxonstore.model.*;
-import com.saxonscripts.saxonstore.repo.ColorRepo;
-import com.saxonscripts.saxonstore.repo.ProductRepo;
-import com.saxonscripts.saxonstore.repo.ProductVariantRepo;
-import com.saxonscripts.saxonstore.repo.SizeRepo;
+import com.saxonscripts.saxonstore.repo.*;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +18,7 @@ public class ProductService {
 
     @Autowired
     private ProductRepo productRepo;
-
-    @Autowired
-    private ColorRepo colorRepo;
-
-    @Autowired
-    private SizeRepo sizeRepo;
-
+    
     @Autowired
     private ProductVariantRepo productVariantRepo;
 
@@ -38,31 +29,14 @@ public class ProductService {
     @Transactional
     public ProductDTO createProduct(ProductDTO productDTO) {
         Product product = modelMapper.map(productDTO, Product.class);
-
-        if (product.getVariants() != null) {
-            for (ProductVariant variant : product.getVariants()) {
-                Size size = sizeRepo.findById(variant.getSize().getId())
-                        .orElseThrow(() -> new IllegalArgumentException("Size not found"));
-                Color color = colorRepo.findById(variant.getColor().getId())
-                        .orElseThrow(() -> new IllegalArgumentException("Color not found"));
-
-                variant.setSize(size);
-                variant.setColor(color);
-                variant.setProduct(product);
-            }
+        for (int i = 0; i < product.getVariants().size(); i++) {
+            product.getVariants().get(i).setProduct(product);
         }
-
-        if (product.getImages() != null) {
-            for (ProductImage image : product.getImages()) {
-                Color color = colorRepo.findById(image.getColor().getId())
-                        .orElseThrow(() -> new IllegalArgumentException("Color not found"));
-
-                image.setColor(color);
-                image.setProduct(product);
-            }
+        for (int i = 0; i < product.getImages().size(); i++) {
+            product.getImages().get(i).setProduct(product);
         }
-
         Product createdProduct = productRepo.save(product);
+
         return modelMapper.map(createdProduct, ProductDTO.class);
     }
 
