@@ -1,7 +1,5 @@
 package com.saxonscripts.saxonstore.model;
 
-import com.saxonscripts.saxonstore.model.Color;
-import com.saxonscripts.saxonstore.model.Product;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,15 +14,11 @@ public class ProductImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
-
-    @ManyToOne
-    @JoinColumn(name = "color_id", nullable = false)
-    private Color color;
 
     @Column(name = "image_url", nullable = false)
     private String imageUrl;
