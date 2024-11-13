@@ -54,9 +54,9 @@ public class GlobalExceptionHandler {
         return new ResponseWrapper<>(400, "VALIDATION_ERROR", "Validation failed for one or more fields", errors);
     }
 
-   // Handle all other unexpected errors
-   @ExceptionHandler(Exception.class)
-   public ResponseWrapper<String> handleGlobalException(Exception ex) {
-       return new ResponseWrapper<>(500, "ERROR", ex.getMessage(), null);
-   }
+    // Handle all other unexpected errors
+    @ExceptionHandler(Exception.class)
+    public ResponseWrapper<String> handleGlobalException(Exception ex) {
+        return new ResponseWrapper<>(500, "ERROR", "An unexpected error occurred", null);
+    }
 }
