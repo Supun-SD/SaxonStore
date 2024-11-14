@@ -1,3 +1,13 @@
+import React from "react";
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+} from "@/components/ui/table";
+
 function MyAccount() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-gray-100 py-10">
@@ -29,44 +39,68 @@ function MyAccount() {
         <div className="flex-1 rounded-lg bg-gray-200 p-8">
           <h3 className="mb-6 text-center text-xl font-semibold">My Orders</h3>
           <hr className="my-4 border-gray-300" />
-          <table className="w-full text-left text-gray-800">
-            <thead>
-              <tr>
-                <th className="border-b border-gray-300 pb-2">Order no.</th>
-                <th className="border-b border-gray-300 pb-2">Date</th>
-                <th className="border-b border-gray-300 pb-2">Amount</th>
-                <th className="border-b border-gray-300 pb-2 text-right">
+          <Table className="w-full text-left text-gray-800">
+            <TableHeader>
+              <TableRow>
+                <TableHead className="border-b border-gray-300 pb-2">
+                  Order no.
+                </TableHead>
+                <TableHead className="border-b border-gray-300 pb-2">
+                  Date
+                </TableHead>
+                <TableHead className="border-b border-gray-300 pb-2">
+                  Amount
+                </TableHead>
+                <TableHead className="border-b border-gray-300 pb-2 text-right">
                   Action
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td className="border-b border-gray-300 py-2">#52452</td>
-                <td className="border-b border-gray-300 py-2">2024.03.12</td>
-                <td className="border-b border-gray-300 py-2">2300</td>
-                <td className="cursor-pointer border-b border-gray-300 py-2 text-right text-gray-500 hover:underline">
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              <TableRow>
+                <TableCell className="border-b border-gray-300 py-2">
+                  #52452
+                </TableCell>
+                <TableCell className="border-b border-gray-300 py-2">
+                  2024.03.12
+                </TableCell>
+                <TableCell className="border-b border-gray-300 py-2">
+                  2300
+                </TableCell>
+                <TableCell className="cursor-pointer border-b border-gray-300 py-2 text-right text-gray-500 hover:underline">
                   View
-                </td>
-              </tr>
-              <tr>
-                <td className="border-b border-gray-300 py-2">#36356</td>
-                <td className="border-b border-gray-300 py-2">2024.09.15</td>
-                <td className="border-b border-gray-300 py-2">10500</td>
-                <td className="cursor-pointer border-b border-gray-300 py-2 text-right text-gray-500 hover:underline">
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className="border-b border-gray-300 py-2">
+                  #36356
+                </TableCell>
+                <TableCell className="border-b border-gray-300 py-2">
+                  2024.09.15
+                </TableCell>
+                <TableCell className="border-b border-gray-300 py-2">
+                  10500
+                </TableCell>
+                <TableCell className="cursor-pointer border-b border-gray-300 py-2 text-right text-gray-500 hover:underline">
                   View
-                </td>
-              </tr>
-              <tr>
-                <td className="border-b border-gray-300 py-2">#35657</td>
-                <td className="border-b border-gray-300 py-2">2024.03.12</td>
-                <td className="border-b border-gray-300 py-2">5460</td>
-                <td className="cursor-pointer border-b border-gray-300 py-2 text-right text-gray-500 hover:underline">
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className="border-b border-gray-300 py-2">
+                  #35657
+                </TableCell>
+                <TableCell className="border-b border-gray-300 py-2">
+                  2024.03.12
+                </TableCell>
+                <TableCell className="border-b border-gray-300 py-2">
+                  5460
+                </TableCell>
+                <TableCell className="cursor-pointer border-b border-gray-300 py-2 text-right text-gray-500 hover:underline">
                   View
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
         </div>
       </div>
     </div>
