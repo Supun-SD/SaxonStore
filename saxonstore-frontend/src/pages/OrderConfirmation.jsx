@@ -4,6 +4,7 @@ import Button from "../components/Button";
 import { useNavigate } from "react-router-dom";
 import OrderItem from "../components/OrderItem";
 import { useSelector } from "react-redux";
+import { useToast } from "../hooks/use-toast";
 
 function OrderConfirmation() {
   const [firstName, setFirstName] = useState("");
@@ -18,6 +19,7 @@ function OrderConfirmation() {
   const cartTotal = useSelector((state) => state.cart.cartTotal);
 
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   function isValidPhoneNumber(phoneNumber) {
     const phoneRegex = /^7\d{8}$/;
@@ -38,17 +40,26 @@ function OrderConfirmation() {
       postalCode === "" ||
       contactNo === ""
     ) {
-      alert("Required fields cannot be empty");
+      toast({
+        description: "Required fields cannot be empty",
+        className: "border border-red-500 rounded-lg p-4",
+      });
       return;
     }
 
     if (!isValidPhoneNumber(contactNo)) {
-      alert("Enter a valid contact number");
+      toast({
+        description: "Enter a valid contact number",
+        className: "border border-red-500 rounded-lg p-4",
+      });
       return;
     }
 
     if (!isValidPostalCode(postalCode)) {
-      alert("Enter a valid postal code");
+      toast({
+        description: "Enter a valid postal code",
+        className: "border border-red-500 rounded-lg p-4",
+      });
       return;
     }
 

@@ -4,7 +4,7 @@ import sampleImage from "../assets/sample.jpg";
 const initialStateCart = {
   cartItems: [
     {
-      id: 1,
+      productVariantId: 1,
       productName: "T-Shirt",
       price: 2500,
       color: "Blue",
@@ -13,7 +13,7 @@ const initialStateCart = {
       imgURL: sampleImage,
     },
     {
-      id: 2,
+      productVariantId: 2,
       productName: "Jeans",
       price: 1600,
       color: "Black",
