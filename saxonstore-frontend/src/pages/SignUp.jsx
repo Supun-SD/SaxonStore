@@ -105,7 +105,7 @@ function SignUp() {
       <FormLabel htmlFor="phone">Phone</FormLabel>
       <FormControl>
         <div className="flex border border-gray-300 rounded-lg overflow-hidden">
-          <div className="flex justify-center items-center border-r px-4">
+          <div className="flex justify-center items-center border-r px-3 pr-4">
             +94
           </div>
           <input
