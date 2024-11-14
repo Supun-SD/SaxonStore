@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SizeDTO {
-    private int id;
+    private Integer sizeId;
     private String name;
 }
 

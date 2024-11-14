@@ -8,8 +8,5 @@ import java.util.List;
 
 @Repository
 public interface ProductVariantRepo extends JpaRepository<ProductVariant, Long> {
-    // You can add custom queries related to product variants if needed
-    // Example: find variants by product ID
-    List<ProductVariant> findByProductId(Long productId);
 }
 

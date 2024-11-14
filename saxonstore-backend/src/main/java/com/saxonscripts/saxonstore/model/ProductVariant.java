@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "product_variants")
+@Table(name = "productVariant")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -14,22 +14,22 @@ public class ProductVariant {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long productVariantId;
 
     @ManyToOne
-    @JoinColumn(name = "product_id", nullable = false)
+    @JoinColumn(name = "productId", nullable = false)
     private Product product;
 
     @ManyToOne
-    @JoinColumn(name = "color_id", nullable = false)
+    @JoinColumn(name = "colorId", nullable = false)
     private Color color;
 
     @ManyToOne
-    @JoinColumn(name = "size_id", nullable = false)
+    @JoinColumn(name = "sizeId", nullable = false)
     private Size size;
 
     @Column(nullable = false)
-    private int quantity;
+    private Integer quantity;
 
     @Column(unique = true, nullable = true)
     private String sku = null;
