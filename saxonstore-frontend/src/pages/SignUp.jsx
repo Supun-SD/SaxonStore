@@ -97,30 +97,30 @@ function SignUp() {
               )}
             />
 
-            <FormField
-              name="phone"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel htmlFor="phone">Phone</FormLabel>
-                  <FormControl>
-                    <div className="flex">
-                      <div className="flex items-center rounded-l-lg border border-gray-300 bg-gray-100 px-4">
-                        +94
-                      </div>
+<FormField
+  name="phone"
+  control={form.control}
+  render={({ field }) => (
+    <FormItem>
+      <FormLabel htmlFor="phone">Phone</FormLabel>
+      <FormControl>
+        <div className="flex border border-gray-300 rounded-lg overflow-hidden">
+          <div className="flex justify-center items-center border-r px-4">
+            +94
+          </div>
+          <input
+            {...field}
+            id="phone"
+            placeholder="Enter your phone number"
+            className="h-12 w-full px-4 text-base focus:outline-none"
+          />
+        </div>
+      </FormControl>
+      <FormMessage>{errors.phone?.message}</FormMessage>
+    </FormItem>
+  )}
+/>
 
-                      <input
-                        {...field}
-                        id="phone"
-                        placeholder="Enter your phone number"
-                        className="h-12 w-full rounded-r-lg border border-l-0 border-gray-300 px-4 text-base focus:outline-none"
-                      />
-                    </div>
-                  </FormControl>
-                  <FormMessage>{errors.phone?.message}</FormMessage>
-                </FormItem>
-              )}
-            />
 
             <FormField
               name="password"
