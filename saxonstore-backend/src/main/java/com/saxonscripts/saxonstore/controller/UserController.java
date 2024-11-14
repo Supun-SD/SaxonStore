@@ -73,4 +73,17 @@ public class UserController {
         }
     }
 
+    @PostMapping("/forgotPassword")
+    public String ForgotPassword(@RequestBody String email) {
+        //TODO: process POST request
+        
+        return "Email sent to " + email;
+    }
+    
+    @PostMapping("/resetPassword")
+    public String ResetPassword(@RequestBody String email) {
+
+        return "Password reset for " + email;
+    }
+
 }
