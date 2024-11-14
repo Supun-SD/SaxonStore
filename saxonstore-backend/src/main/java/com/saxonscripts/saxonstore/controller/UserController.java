@@ -30,7 +30,7 @@ public class UserController {
     @Autowired
     private JwtEncoder encoder;
 
-    private String generateToken(String email) {
+    private String generateToken(String email, String role) {
         Instant now = Instant.now();
         long expiry = 36000L;
         // @formatter:off
@@ -39,7 +39,7 @@ public class UserController {
 				.issuedAt(now)
 				.expiresAt(now.plusSeconds(expiry))
 				.subject(email)
-				.claim("scope", email)
+                .claim("role", role)
 				.build();
 		// @formatter:on
         return encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
@@ -65,7 +65,7 @@ public class UserController {
         boolean isAuthenticated = userService.login(loginRequestDTO);
         if (isAuthenticated) {
             // Generate JWT token
-            String token = generateToken(loginRequestDTO.getEmail());
+            String token = generateToken(loginRequestDTO.getEmail(), loginRequestDTO.getRole());
             // Return token in the response
             return ResponseEntity.ok().body(token);
         } else {

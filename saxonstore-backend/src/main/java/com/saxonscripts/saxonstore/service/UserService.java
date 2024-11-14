@@ -55,7 +55,19 @@ public class UserService {
             Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequestDTO.getEmail(), loginRequestDTO.getPassword())
             );
-            return authentication.isAuthenticated();
+            if (authentication.isAuthenticated()) {
+                // Fetch the user's details from the database to get the role
+                Optional<User> userOptional = userRepo.findByEmail(loginRequestDTO.getEmail());
+                if (userOptional.isPresent()) {
+                    User user = userOptional.get();
+                    loginRequestDTO.setRole(user.getRole());
+                    return true;
+                } else {
+                    return false; // User not found
+                }
+            } else {
+                return false; // Authentication failed
+            }
         } catch (AuthenticationException e) {
             return false; // Login failed
         }
