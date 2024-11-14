@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/product")
 public class ProductController {
 
     @Autowired
@@ -44,7 +44,7 @@ public class ProductController {
     }
 
     // Update product by ID
-    @PatchMapping("/update/{productId}")
+    @PatchMapping("/{productId}")
     public ResponseWrapper<ProductDTO> updateProduct(
             @PathVariable("productId") Long productId,
             @RequestBody ProductDTO productDTO) {
@@ -53,14 +53,21 @@ public class ProductController {
     }
 
     // Get products by category and subcategory
-    @GetMapping("/search")
+    @GetMapping("/filter/byCategory")
     public ResponseWrapper<List<ProductDTO>> getProductsByCategory(
             @RequestParam("category") String category,
             @RequestParam("subcategory") String subcategory) {
         List<ProductDTO> products = productService.getProductsByCategory(category, subcategory);
         return new ResponseWrapper<>(200, "SUCCESS", "Products in category " + category + " and subcategory " + subcategory, products);
     }
+
+    @GetMapping("/filter/byName/{name}")
+    public ResponseWrapper<List<ProductDTO>> getProductsByName(@PathVariable("name") String name) {
+        List<ProductDTO> products = productService.getProductsByName(name);
+        return new ResponseWrapper<>(200, "SUCCESS", "Products with name " + name, products);
+    }
 }
+
 
 
 
