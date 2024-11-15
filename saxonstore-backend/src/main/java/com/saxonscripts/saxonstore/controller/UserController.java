@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Instant;
+import java.util.Map;
 import java.util.List;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -74,10 +75,14 @@ public class UserController {
     }
 
     @PostMapping("/forgotPassword")
-    public String ForgotPassword(@RequestBody String email) {
-        //TODO: process POST request
-        
-        return "Email sent to " + email;
+    public ResponseEntity<String> forgotPassword(@RequestBody Map<String, String> request) {
+        String email = request.get("email");
+        UserDTO user = userService.getUserByEmail(email);
+        if (user == null) {
+            return ResponseEntity.status(404).body("User not found with email: " + email);
+        }
+        // Logic to send email
+        return ResponseEntity.ok("Email sent to " + user.getEmail());
     }
     
     @PostMapping("/resetPassword")

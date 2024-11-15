@@ -72,4 +72,12 @@ public class UserService {
             return false; // Login failed
         }
     }
+
+    public UserDTO getUserByEmail(String email) {
+        Optional<User> userOptional = userRepo.findByEmail(email);
+        if (userOptional.isEmpty()) {
+            throw new RuntimeException("User not found with email: " + email);
+        }
+        return modelMapper.map(userOptional.get(), UserDTO.class);
+    }
 }
