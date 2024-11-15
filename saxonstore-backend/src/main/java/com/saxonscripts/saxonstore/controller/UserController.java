@@ -3,6 +3,7 @@ package com.saxonscripts.saxonstore.controller;
 import com.saxonscripts.saxonstore.dto.UserDTO;
 import com.saxonscripts.saxonstore.dto.LoginRequestDTO;
 import com.saxonscripts.saxonstore.service.UserService;
+import com.saxonscripts.saxonstore.util.EmailService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Instant;
 import java.util.Map;
+import java.util.UUID;
 import java.util.List;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,9 +29,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class UserController {
     @Autowired
     private UserService userService;
-
     @Autowired
     private JwtEncoder encoder;
+
+    @Autowired
+    private EmailService emailService;
 
     private String generateToken(String email, String role) {
         Instant now = Instant.now();
@@ -43,6 +47,21 @@ public class UserController {
                 .claim("role", role)
 				.build();
 		// @formatter:on
+        return encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+    }
+
+    private String generateResetToken(String email, String tempToken) {
+        Instant now = Instant.now();
+        long expiry = 3600L;
+        // @formatter:off
+        JwtClaimsSet claims = JwtClaimsSet.builder()
+                .issuer("self")
+                .issuedAt(now)
+                .expiresAt(now.plusSeconds(expiry))
+                .subject(email)
+                .claim("tempToken", tempToken)
+                .build();
+        // @formatter:on
         return encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
     }
 
@@ -81,6 +100,13 @@ public class UserController {
         if (user == null) {
             return ResponseEntity.status(404).body("User not found with email: " + email);
         }
+        // Generate reset token and save it
+        String tempToken = UUID.randomUUID().toString();
+        String token = generateResetToken(email, tempToken);
+
+        // Send email with reset link
+        emailService.sendPasswordResetEmail(email, token);
+
         // Logic to send email
         return ResponseEntity.ok("Email sent to " + user.getEmail());
     }
