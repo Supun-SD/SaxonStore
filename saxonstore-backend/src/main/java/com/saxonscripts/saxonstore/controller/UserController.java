@@ -5,10 +5,17 @@ import com.saxonscripts.saxonstore.dto.LoginRequestDTO;
 import com.saxonscripts.saxonstore.service.UserService;
 import com.saxonscripts.saxonstore.util.EmailService;
 
+import jakarta.mail.MessagingException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,10 +34,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 @CrossOrigin
 @RequestMapping("users")
 public class UserController {
+
+     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+
     @Autowired
     private UserService userService;
+    
     @Autowired
     private JwtEncoder encoder;
+
+    @Autowired
+    private JwtDecoder jwtDecoder;
 
     @Autowired
     private EmailService emailService;
@@ -96,6 +110,7 @@ public class UserController {
     @PostMapping("/forgotPassword")
     public ResponseEntity<String> forgotPassword(@RequestBody Map<String, String> request) {
         String email = request.get("email");
+        String returnUrl = request.get("returnUrl");
         UserDTO user = userService.getUserByEmail(email);
         if (user == null) {
             return ResponseEntity.status(404).body("User not found with email: " + email);
@@ -105,16 +120,42 @@ public class UserController {
         String token = generateResetToken(email, tempToken);
 
         // Send email with reset link
-        emailService.sendPasswordResetEmail(email, token);
-
-        // Logic to send email
-        return ResponseEntity.ok("Email sent to " + user.getEmail());
+        try {
+            emailService.sendPasswordResetEmail(email, token, returnUrl);
+            return ResponseEntity.ok("Email sent to " + user.getEmail());
+        } catch (MessagingException e) {
+            return ResponseEntity.status(500).body("Failed to send email");
+        }
     }
     
     @PostMapping("/resetPassword")
-    public String ResetPassword(@RequestBody String email) {
+    public ResponseEntity<String> resetPassword(@RequestBody Map<String, String> request) {
+        String token = request.get("token");
+        String newPassword = request.get("newPassword");
 
-        return "Password reset for " + email;
+        try {
+            Jwt decodedToken = jwtDecoder.decode(token);
+            String email = decodedToken.getSubject();
+            String tempToken = decodedToken.getClaim("tempToken");
+
+            // Log the values of email and tempToken
+            logger.info("Decoded email: {}", email);
+            logger.info("Decoded tempToken: {}", tempToken);
+
+            // Verify the email and tempToken
+            UserDTO user = userService.getUserByEmail(email);
+            logger.info("User: {}", user);
+            if (user == null) {
+                return ResponseEntity.status(400).body("Invalid token");
+            }
+            // if(user == null || !user.getUserId().equals(tempToken)) {
+            //     return ResponseEntity.status(400).body("Invalid token");
+            // }
+            // Update the user's password
+            userService.updatePassword(email, newPassword);
+            return ResponseEntity.ok("Password updated successfully");
+        } catch (JwtException e) {
+            return ResponseEntity.status(400).body("Invalid token");
+        }
     }
-
 }

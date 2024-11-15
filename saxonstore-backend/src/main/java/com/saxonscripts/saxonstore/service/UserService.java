@@ -81,5 +81,16 @@ public class UserService {
         return modelMapper.map(userOptional.get(), UserDTO.class);
     }
 
+    public void updatePassword(String email, String newPassword) {
+        Optional<User> userOptional = userRepo.findByEmail(email);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            user.setPassword(passwordEncoder.encode(newPassword));
+            userRepo.save(user);
+        } else {
+            throw new RuntimeException("User not found with email: " + email);
+        }
+    }
+
     
 }
