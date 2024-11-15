@@ -9,14 +9,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class OrderDTO {
+@NoArgsConstructor
+public class SimpleOrderDTO {
     private Long orderId;
-    private UserDTO user;
     private LocalDateTime orderDate;
     private BigDecimal totalAmount;
     private String status;
-    private List<OrderProductDTO> orderProducts;
-    private  DeliveryDTO delivery;
+    private List<SimpleOrderProductDTO> orderProducts;
+    private DeliveryDTO delivery;
 }

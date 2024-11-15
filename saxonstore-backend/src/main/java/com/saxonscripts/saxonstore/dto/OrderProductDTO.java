@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderProductDTO {
-    private String productVariantId;
-    private int quantity;
+    private ProductDTO product;
+    private ProductVariantDTO productVariant;
+    private Integer quantity;
 }
