@@ -8,11 +8,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DeliveryDTO {
-    private int deliveryId;
+    private Long deliveryId;
     private String firstName;
     private String lastName;
+    private String phone;
     private String address;
     private String city;
-    private int postalCode;
+    private Integer postalCode;
     private String note;
 }

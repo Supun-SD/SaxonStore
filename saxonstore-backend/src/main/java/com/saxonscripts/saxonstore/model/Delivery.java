@@ -15,16 +15,17 @@ public class Delivery {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int deliveryId;
+    private Long deliveryId;
 
     @OneToOne
-    @JoinColumn(name = "orderNo", nullable = false)
+    @JoinColumn(name = "orderId", nullable = false)
     private Order order;
 
     private String firstName;
     private String lastName;
+    private String phone;
     private String address;
     private String city;
-    private int postalCode;
+    private Integer postalCode;
     private String note;
 }
