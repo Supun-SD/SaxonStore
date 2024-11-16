@@ -29,6 +29,13 @@ public class ProductController {
         return new ResponseWrapper<>(200, "SUCCESS", "All products", allProducts);
     }
 
+    // Get new products
+    @GetMapping("/filter/newArrivals")
+    public ResponseWrapper<List<ProductDTO>> getNewProducts() {
+        List<ProductDTO> newProducts = productService.getNewProducts();
+        return new ResponseWrapper<>(200, "SUCCESS", "New Arrivals", newProducts);
+    }
+
     // Get product by ID
     @GetMapping("/{productId}")
     public ResponseWrapper<ProductDTO> getProductById(@PathVariable Long productId) {
@@ -58,7 +65,8 @@ public class ProductController {
             @RequestParam("category") String category,
             @RequestParam("subcategory") String subcategory) {
         List<ProductDTO> products = productService.getProductsByCategory(category, subcategory);
-        return new ResponseWrapper<>(200, "SUCCESS", "Products in category " + category + " and subcategory " + subcategory, products);
+        return new ResponseWrapper<>(200, "SUCCESS",
+                "Products in category " + category + " and subcategory " + subcategory, products);
     }
 
     @GetMapping("/filter/byName/{name}")
@@ -67,7 +75,3 @@ public class ProductController {
         return new ResponseWrapper<>(200, "SUCCESS", "Products with name " + name, products);
     }
 }
-
-
-
-

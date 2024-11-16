@@ -48,6 +48,12 @@ public class ProductService {
         return modelMapper.map(products, new TypeToken<List<ProductDTO>>(){}.getType());
     }
 
+    // Get new products
+    public List<ProductDTO> getNewProducts() {
+        List<Product> products = productRepo.findTop5ByOrderByCreatedAtDesc();
+        return modelMapper.map(products, new TypeToken<List<ProductDTO>>(){}.getType());
+    }
+
     // Get product by ID
     public ProductDTO getProductById(Long productId) {
         Product product = productRepo.findById(productId)
