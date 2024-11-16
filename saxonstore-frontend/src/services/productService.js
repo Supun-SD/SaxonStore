@@ -8,5 +8,5 @@ export const getProductsByCategory = async (category, subcategory) => {
 };
 
 export const getNewArrivals = async () => {
-  return await axios.get(`${baseURL}/product`);
+  return await axios.get(`${baseURL}/product/filter/newArrivals`);
 };
