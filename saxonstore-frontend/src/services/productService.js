@@ -7,6 +7,12 @@ export const getProductsByCategory = async (category, subcategory) => {
   );
 };
 
+export const getProductsByName = async (name) => {
+  return await axios.get(
+    `${baseURL}/product/filter/byName/${name}`,
+  );
+};
+
 export const getNewArrivals = async () => {
   return await axios.get(`${baseURL}/product/filter/newArrivals`);
 };
