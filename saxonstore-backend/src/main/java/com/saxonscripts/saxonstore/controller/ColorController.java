@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("colors")
+@RequestMapping("color")
 public class ColorController {
     @Autowired
     private ColorService colorService;
