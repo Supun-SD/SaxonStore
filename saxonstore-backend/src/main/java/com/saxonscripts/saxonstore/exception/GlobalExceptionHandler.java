@@ -61,3 +61,4 @@ public class GlobalExceptionHandler {
         return new ResponseWrapper<>(500, "ERROR", ex.getMessage(), null);
     }
 }
+

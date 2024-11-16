@@ -48,6 +48,12 @@ public class ProductService {
         return modelMapper.map(products, new TypeToken<List<ProductDTO>>(){}.getType());
     }
 
+    // Get new products
+    public List<ProductDTO> getNewProducts() {
+        List<Product> products = productRepo.findTop5ByOrderByCreatedAtDesc();
+        return modelMapper.map(products, new TypeToken<List<ProductDTO>>(){}.getType());
+    }
+
     // Get product by ID
     public ProductDTO getProductById(Long productId) {
         Product product = productRepo.findById(productId)
@@ -97,7 +103,7 @@ public class ProductService {
 
     //Get products by category and subcategory
     public List<ProductDTO> getProductsByCategory(String category, String subcategory) {
-        List<Product> products = productRepo.findByCategoryAndSubcategoryAndIsListedTrue(category, subcategory);
+        List<Product> products = productRepo.findByCategoryIgnoreCaseAndSubcategoryIgnoreCaseAndIsListedTrue(category, subcategory);
         if (products.isEmpty()) {
             throw new ResourceNotFoundException("No products found for category: " + category + " and subcategory: " + subcategory);
         }
