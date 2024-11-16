@@ -1,7 +1,9 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
+import { z } from "zod";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import {
   Form,
   FormField,
@@ -16,18 +18,40 @@ const forgotPasswordSchema = z.object({
 });
 
 function ForgotPassword() {
+  const navigate = useNavigate();
   // Initialize form methods
-  const form = useForm({
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
     resolver: zodResolver(forgotPasswordSchema),
     defaultValues: {
       email: "",
     },
   });
-
   // Form submit handler
-  const onSubmit = (data) => {
-    console.log("Forgot password data:", data);
-    // Logic to send link goes here
+  const onSubmit = async (data) => {
+    try {
+      const response = await axios.post("", {
+        email: data.email,
+      });
+
+      // Handle success response
+      if (response.status === 200) {
+        console.log("Password reset link sent:", response.data);
+        alert("Password reset link has been sent to your email address.");
+        reset(); // Reset the form fields
+        navigate("/sign-in"); // Redirect to login page
+      }
+    } catch (error) {
+      // Handle error
+      console.error("Error sending password reset link:", error);
+      alert(
+        error.response?.data?.message || "Failed to send password reset link.",
+      );
+    }
   };
   return (
     <div className="flex min-h-screen items-center justify-center p-4">
@@ -36,11 +60,11 @@ function ForgotPassword() {
           FORGOT PASSWORD
         </h2>
 
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <Form {...control}>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <FormField
               name="email"
-              control={form.control}
+              control={control}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel htmlFor="email">Email</FormLabel>
@@ -53,7 +77,7 @@ function ForgotPassword() {
                     />
                   </FormControl>
                   <FormMessage>
-                    {form.formState.errors.email?.message}
+                    {errors.email && errors.email.message}
                   </FormMessage>
                 </FormItem>
               )}

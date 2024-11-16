@@ -1,5 +1,9 @@
 import React from "react";
 import { useForm, FormProvider } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import {
   Form,
   FormField,
@@ -9,16 +13,40 @@ import {
   FormDescription,
   FormMessage,
 } from "@/components/ui/form";
+
+const loginSchema = z.object({
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(8, "Password must be at least 8 characters long"),
+});
 function LogIn() {
-  const form = useForm({
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    register,
+  } = useForm({
+    resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  const onSubmit = (data) => {
-    console.log("Form Data:", data);
+  const navigate = useNavigate();
+
+  const onSubmit = async (data) => {
+    try {
+      const response = await axios.post();
+      console.log(response.data);
+      navigate("/");
+    } catch (error) {
+      console.error("Login failed:", error);
+      if (error.response.status === 401) {
+        alert("Invalid email or password");
+      } else {
+        alert("Login failed");
+      }
+    }
   };
 
   return (
@@ -26,19 +54,19 @@ function LogIn() {
       <div className="mb-8 w-[500px] rounded-2xl border-2 border-gray-300 bg-white p-8">
         <h2 className="mb-6 text-center text-2xl font-normal">LOG IN</h2>
 
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <Form {...control}>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <FormField
               name="email"
-              control={form.control}
+              control={control}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl asChild>
                     <input
-                      {...field}
                       type="email"
                       placeholder="Enter your email"
+                      {...register("email", { required: true })}
                       className="h-12 w-full rounded-lg border border-gray-300 px-4 text-base focus:outline-none"
                     />
                   </FormControl>
@@ -49,15 +77,15 @@ function LogIn() {
 
             <FormField
               name="password"
-              control={form.control}
+              control={control}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl asChild>
                     <input
-                      {...field}
                       type="password"
                       placeholder="Enter your password"
+                      {...register("password", { required: true })}
                       className="h-12 w-full rounded-lg border border-gray-300 px-4 text-base focus:outline-none"
                     />
                   </FormControl>

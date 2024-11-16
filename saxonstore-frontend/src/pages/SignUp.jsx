@@ -3,6 +3,10 @@ import { useForm, Controller, FormProvider } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import {
   Form,
   FormField,
@@ -12,22 +16,52 @@ import {
   FormDescription,
   FormMessage,
 } from "@/components/ui/form";
-function SignUp() {
-  const form = useForm({
-    defaultValues: {
-      email: "",
-      password: "",
-    },
+
+const signUpSchema = z
+  .object({
+    firstName: z.string().min(1, "First name is required"),
+    lastName: z.string().min(1, "Last name is required"),
+    email: z.string().email("Invalid email address"),
+    phone: z
+      .string()
+      .regex(/^\d{9}$/, "Phone number must be 9 digits")
+      .optional(),
+    password: z.string().min(8, "Password must be at least 8 characters long"),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords must match",
+    path: ["confirmPassword"], // This will set the error on confirmPassword
   });
+
+function SignUp() {
+  const navigate = useNavigate();
 
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors },
-  } = useForm();
+    register,
+  } = useForm({
+    resolver: zodResolver(signUpSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+      confirmpassword: "",
+    },
+  });
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    try {
+      const response = await axios.post("/api/register", data); // Replace with your signup API endpoint
+      console.log("Signup successful:", response.data);
+      alert("Account created successfully!");
+      navigate("/sign-in"); // Redirect to login page
+    } catch (error) {
+      console.error("Signup failed:", error);
+      alert("Signup failed.");
+    }
   };
 
   return (
@@ -37,20 +71,21 @@ function SignUp() {
           CREATE AN ACCOUNT
         </h2>
 
-        <Form {...form}>
+        <Form {...control}>
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="flex flex-col space-y-6"
           >
             <FormField
               name="firstName"
-              control={form.control}
+              control={control}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel htmlFor="firstName">First Name</FormLabel>
                   <FormControl>
                     <input
                       id="firstName"
+                      {...register("firstName")}
                       placeholder="Enter your first name"
                       className="h-12 w-full rounded-lg border border-gray-300 px-4 text-base"
                     />
@@ -62,7 +97,7 @@ function SignUp() {
 
             <FormField
               name="lastName"
-              control={form.control}
+              control={control}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel htmlFor="lastName">Last Name</FormLabel>
@@ -70,6 +105,7 @@ function SignUp() {
                     <input
                       id="lastName"
                       placeholder="Enter your last name"
+                      {...register("lastName")}
                       className="h-12 w-full rounded-lg border border-gray-300 px-4 text-base"
                     />
                   </FormControl>
@@ -80,7 +116,7 @@ function SignUp() {
 
             <FormField
               name="email"
-              control={form.control}
+              control={control}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel htmlFor="email">Email</FormLabel>
@@ -89,6 +125,8 @@ function SignUp() {
                       {...field}
                       id="email"
                       placeholder="Enter your email"
+                      type="email"
+                      {...register("email")}
                       className="h-12 w-full rounded-lg border border-gray-300 px-4 text-base"
                     />
                   </FormControl>
@@ -99,19 +137,19 @@ function SignUp() {
 
             <FormField
               name="phone"
-              control={form.control}
+              control={control}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel htmlFor="phone">Phone</FormLabel>
                   <FormControl>
-                    <div className="flex border border-gray-300 rounded-lg overflow-hidden">
-                      <div className="flex justify-center items-center border-r px-3 pr-4">
+                    <div className="flex overflow-hidden rounded-lg border border-gray-300">
+                      <div className="flex items-center justify-center border-r px-3 pr-4">
                         +94
                       </div>
                       <input
-                        {...field}
                         id="phone"
                         placeholder="Enter your phone number"
+                        {...register("phone")}
                         className="h-12 w-full px-4 text-base focus:outline-none"
                       />
                     </div>
@@ -121,19 +159,18 @@ function SignUp() {
               )}
             />
 
-
             <FormField
               name="password"
-              control={form.control}
+              control={control}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel htmlFor="password">Password</FormLabel>
                   <FormControl>
                     <input
-                      {...field}
                       type="password"
                       id="password"
                       placeholder="Enter your password"
+                      {...register("password")}
                       className="h-12 w-full rounded-lg border border-gray-300 px-4 text-base"
                     />
                   </FormControl>
@@ -144,7 +181,7 @@ function SignUp() {
 
             <FormField
               name="confirmPassword"
-              control={form.control}
+              control={control}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel htmlFor="confirmPassword">
@@ -152,10 +189,10 @@ function SignUp() {
                   </FormLabel>
                   <FormControl>
                     <input
-                      {...field}
                       type="password"
                       id="confirmPassword"
                       placeholder="Confirm your password"
+                      {...register("confirmPassword")}
                       className="h-12 w-full rounded-lg border border-gray-300 px-4 text-base"
                     />
                   </FormControl>
