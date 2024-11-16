@@ -1,8 +1,4 @@
-import React from "react";
-import { useForm, Controller, FormProvider } from "react-hook-form";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
@@ -13,7 +9,6 @@ import {
   FormItem,
   FormLabel,
   FormControl,
-  FormDescription,
   FormMessage,
 } from "@/components/ui/form";
 
@@ -31,7 +26,7 @@ const signUpSchema = z
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords must match",
-    path: ["confirmPassword"], // This will set the error on confirmPassword
+    path: ["confirmPassword"],
   });
 
 function SignUp() {
@@ -40,7 +35,6 @@ function SignUp() {
   const {
     control,
     handleSubmit,
-    reset,
     formState: { errors },
     register,
   } = useForm({
@@ -54,10 +48,10 @@ function SignUp() {
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post("/api/register", data); // Replace with your signup API endpoint
+      const response = await axios.post("/api/register", data);
       console.log("Signup successful:", response.data);
       alert("Account created successfully!");
-      navigate("/sign-in"); // Redirect to login page
+      navigate("/sign-in");
     } catch (error) {
       console.error("Signup failed:", error);
       alert("Signup failed.");
@@ -79,7 +73,7 @@ function SignUp() {
             <FormField
               name="firstName"
               control={control}
-              render={({ field }) => (
+              render={() => (
                 <FormItem>
                   <FormLabel htmlFor="firstName">First Name</FormLabel>
                   <FormControl>
@@ -98,7 +92,7 @@ function SignUp() {
             <FormField
               name="lastName"
               control={control}
-              render={({ field }) => (
+              render={() => (
                 <FormItem>
                   <FormLabel htmlFor="lastName">Last Name</FormLabel>
                   <FormControl>
@@ -138,7 +132,7 @@ function SignUp() {
             <FormField
               name="phone"
               control={control}
-              render={({ field }) => (
+              render={() => (
                 <FormItem>
                   <FormLabel htmlFor="phone">Phone</FormLabel>
                   <FormControl>
@@ -162,7 +156,7 @@ function SignUp() {
             <FormField
               name="password"
               control={control}
-              render={({ field }) => (
+              render={() => (
                 <FormItem>
                   <FormLabel htmlFor="password">Password</FormLabel>
                   <FormControl>
@@ -182,7 +176,7 @@ function SignUp() {
             <FormField
               name="confirmPassword"
               control={control}
-              render={({ field }) => (
+              render={() => (
                 <FormItem>
                   <FormLabel htmlFor="confirmPassword">
                     Confirm Password

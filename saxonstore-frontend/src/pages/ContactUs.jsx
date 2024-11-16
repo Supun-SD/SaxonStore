@@ -1,6 +1,5 @@
-import React from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod"; // Import Zod
+import { z } from "zod"; 
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
@@ -22,7 +21,7 @@ const contactUsSchema = z.object({
 
 function ContactUs() {
   const form = useForm({
-    resolver: zodResolver(contactUsSchema), // Use the Zod resolver
+    resolver: zodResolver(contactUsSchema), 
     defaultValues: {
       name: "",
       email: "",

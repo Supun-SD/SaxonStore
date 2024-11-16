@@ -1,5 +1,4 @@
-import React from "react";
-import { useForm, FormProvider } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -10,7 +9,6 @@ import {
   FormItem,
   FormLabel,
   FormControl,
-  FormDescription,
   FormMessage,
 } from "@/components/ui/form";
 
@@ -19,12 +17,7 @@ const loginSchema = z.object({
   password: z.string().min(8, "Password must be at least 8 characters long"),
 });
 function LogIn() {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-    register,
-  } = useForm({
+  const { control, handleSubmit, register } = useForm({
     resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
@@ -34,7 +27,7 @@ function LogIn() {
 
   const navigate = useNavigate();
 
-  const onSubmit = async (data) => {
+  const onSubmit = async () => {
     try {
       const response = await axios.post();
       console.log(response.data);
@@ -51,7 +44,7 @@ function LogIn() {
 
   return (
     <div className="flex-center h-screen justify-center">
-      <div className="mb-8 w-[500px] rounded-2xl border-2 border-gray-300 bg-white p-8">
+      <div className="w-[500px] rounded-2xl border-2 border-gray-300 bg-white p-8">
         <h2 className="mb-6 text-center text-2xl font-normal">LOG IN</h2>
 
         <Form {...control}>
@@ -59,7 +52,7 @@ function LogIn() {
             <FormField
               name="email"
               control={control}
-              render={({ field }) => (
+              render={() => (
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl asChild>
@@ -78,7 +71,7 @@ function LogIn() {
             <FormField
               name="password"
               control={control}
-              render={({ field }) => (
+              render={() => (
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl asChild>
