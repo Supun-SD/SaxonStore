@@ -7,8 +7,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderProductDTO {
-    private ProductDTO product;
-    private ProductVariantDTO productVariant;
+public class ProductVariantDTO {
+    private Long productVariantId;
+    private ColorDTO color;
+    private SizeDTO size;
     private Integer quantity;
+    private String sku;
 }
+

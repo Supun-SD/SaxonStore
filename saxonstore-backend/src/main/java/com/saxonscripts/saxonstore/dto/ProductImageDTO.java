@@ -7,8 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderProductDTO {
-    private ProductDTO product;
-    private ProductVariantDTO productVariant;
-    private Integer quantity;
+public class ProductImageDTO {
+    private Long productImageId;
+    private String imageUrl;
+    private Boolean isPrimary;
 }
+

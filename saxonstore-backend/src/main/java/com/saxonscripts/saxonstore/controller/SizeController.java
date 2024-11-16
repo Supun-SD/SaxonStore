@@ -1,7 +1,8 @@
 package com.saxonscripts.saxonstore.controller;
 
-import com.saxonscripts.saxonstore.dto.UserDTO;
-import com.saxonscripts.saxonstore.service.UserService;
+import com.saxonscripts.saxonstore.dto.ResponseWrapper;
+import com.saxonscripts.saxonstore.dto.SizeDTO;
+import com.saxonscripts.saxonstore.service.SizeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,13 +13,14 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping("size")
+public class SizeController {
     @Autowired
-    private UserService userService;
+    private SizeService sizeService;
 
     @GetMapping
-    public List<UserDTO> getUsers(){
-        return userService.getAllUsers();
+    public ResponseWrapper<List<SizeDTO>> getSizes(){
+        List<SizeDTO> allSizes = sizeService.getAllSizes();
+        return new ResponseWrapper<>(200, "SUCCESS", "All colors", allSizes);
     }
 }

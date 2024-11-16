@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -15,15 +17,14 @@ import java.util.List;
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int orderNo;
+    private Long orderId;
 
-//    @ManyToOne
-//    @JoinColumn(name = "customer_id", nullable = false)
-//    private Customer customer;
-    private String customerId;
+    @ManyToOne
+    @JoinColumn(name = "userId", nullable = false)
+    private User user;
 
     private LocalDateTime orderDate;
-    private double totalAmount;
+    private BigDecimal totalAmount;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderProduct> orderProducts;
@@ -32,4 +33,9 @@ public class Order {
 
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private Delivery delivery;
+
+    @PrePersist
+    protected void onCreate() {
+        this.orderDate = LocalDateTime.now();
+    }
 }
