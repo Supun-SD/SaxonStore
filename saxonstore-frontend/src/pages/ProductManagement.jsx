@@ -2,41 +2,70 @@ import { useEffect, useState } from "react";
 import CategoriesDropDown from "../components/CategoriesDropDown";
 import MyProduct from "../components/MyProduct";
 import { useNavigate } from "react-router-dom";
-import testProducts from "../data/products";
+import { getAllProducts } from "../services/productService";
+import { toast } from "../hooks/use-toast";
+import LoadingSekeleton from "../components/LoadingSekeleton";
 
 function ProductManagement() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All Products");
-  const [products, setProducts] = useState(testProducts);
+  const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const filteredProducts = testProducts.filter(
+    const fetchProducts = async () => {
+      try {
+        setIsLoading(true);
+        const response = await getAllProducts();
+        if (response.data.httpCode === 404) {
+          setProducts([]);
+        } else {
+          setProducts(response.data.data);
+          setFilteredProducts(response.data.data);
+        }
+      } catch (error) {
+        console.error("Error getting products:", error);
+        toast({
+          description: "There was a problem getting products",
+          className: "border border-red-500 rounded-lg p-4",
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  useEffect(() => {
+    const filteredProducts = products.filter(
       (product) =>
         product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         product.id.toString().includes(searchQuery),
     );
 
-    setProducts(filteredProducts);
-  }, [searchQuery]);
+    setFilteredProducts(filteredProducts);
+  }, [searchQuery, products]);
 
   const navigate = useNavigate();
 
   function onCategorySelect(selected) {
     if (selected == "All Products") {
       setSelectedCategory(selected);
-      setProducts(testProducts);
+      setFilteredProducts(products);
       return;
     }
     setSelectedCategory(`${selected.category}'s ${selected.subcategory}`);
 
-    const filteredProducts = testProducts.filter((product) => {
+    const filteredProducts = products.filter((product) => {
       return (
         product.category === selected.category &&
         product.subcategory === selected.subcategory
       );
     });
 
-    setProducts(filteredProducts);
+    setFilteredProducts(filteredProducts);
   }
 
   return (
@@ -66,11 +95,15 @@ function ProductManagement() {
         </button>
       </div>
 
-      <div className="mt-10 grid w-full gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4">
-        {products.map((product, index) => (
-          <MyProduct product={product} key={index} />
-        ))}
-      </div>
+      {isLoading ? (
+        <LoadingSekeleton />
+      ) : (
+        <div className="mt-10 grid w-full gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4">
+          {filteredProducts.map((product) => (
+            <MyProduct product={product} key={product.productId} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
