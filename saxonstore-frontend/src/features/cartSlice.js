@@ -1,28 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import sampleImage from "../assets/sample.jpg";
 
 const initialStateCart = {
-  cartItems: [
-    {
-      id: 1,
-      productName: "T-Shirt",
-      price: 2500,
-      color: "Blue",
-      size: "M",
-      quantity: 2,
-      imgURL: sampleImage,
-    },
-    {
-      id: 2,
-      productName: "Jeans",
-      price: 1600,
-      color: "Black",
-      size: "L",
-      quantity: 1,
-      imgURL: sampleImage,
-    },
-  ],
-  cartTotal: 6600,
+  cartItems: [],
+  cartTotal: 0.0,
 };
 
 const cartSlice = createSlice({
@@ -33,7 +13,7 @@ const cartSlice = createSlice({
       const product = action.payload;
       const existingItem = state.cartItems.find(
         (item) =>
-          item.id === product.id &&
+          item.productVariantId === product.productVariantId &&
           item.size === product.size &&
           item.color === product.color,
       );
