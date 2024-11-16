@@ -8,3 +8,7 @@ export const placeOrder = async (order) => {
 export const getAllOrders = async () => {
   return await axios.get(`${baseURL}/order`);
 };
+
+export const updateOrder = async (orderId, updatedStatus) => {
+  return await axios.put(`${baseURL}/order/${orderId}`, updatedStatus);
+};

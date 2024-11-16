@@ -5,6 +5,8 @@ import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { getAllOrders } from "../services/orderService";
 import { toast } from "../hooks/use-toast";
 import SyncLoader from "react-spinners/SyncLoader";
+import PopUpModel from "../components/PopUpModel";
+import OrderDetails from "../components/OrderDetails";
 
 function OrderManagement() {
   const [isLoading, setIsLoading] = useState(false);
@@ -55,16 +57,6 @@ function OrderManagement() {
 }
 
 function OrdersTable({ orders }) {
-  const [selectedOrder, setSelectedOrder] = useState(null);
-
-  const handleViewDetails = (order) => {
-    setSelectedOrder(order);
-  };
-
-  const closeDetails = () => {
-    setSelectedOrder(null);
-  };
-
   return (
     <div className="relative w-full overflow-hidden rounded-lg shadow-lg">
       <table className="w-full table-auto divide-y divide-gray-200">
@@ -105,7 +97,7 @@ function OrdersTable({ orders }) {
               <td className="whitespace-nowrap px-8 py-5 text-xl">
                 <span
                   className={`inline-flex rounded-full px-5 py-3 text-xs font-semibold leading-5 ${
-                    order.status === "Paid"
+                    order.status === "PAID"
                       ? "bg-green-100 text-green-800"
                       : "bg-red-100 text-red-800"
                   }`}
@@ -114,32 +106,20 @@ function OrdersTable({ orders }) {
                 </span>
               </td>
               <td className="whitespace-nowrap px-8 py-5 text-center text-xl">
-                <button
-                  className="text-gray-500 hover:text-gray-900"
-                  onClick={() => handleViewDetails(order)}
+                <PopUpModel
+                  button={
+                    <button className="text-gray-500 hover:text-gray-900">
+                      <FontAwesomeIcon icon={faEye} className="h-8 w-8" />
+                    </button>
+                  }
                 >
-                  <FontAwesomeIcon icon={faEye} className="h-8 w-8" />
-                </button>
+                  <OrderDetails order={order} />
+                </PopUpModel>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-
-      {selectedOrder && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
-          <div className="w-11/12 rounded-lg bg-white p-8 shadow-lg md:w-1/2">
-            <h3 className="mb-4 text-xl font-semibold">Order Details</h3>
-            <p className="text-gray-700">{selectedOrder.details}</p>
-            <button
-              className="py -3 mt-6 rounded bg-indigo-600 px-6 text-white hover:bg-indigo-700"
-              onClick={closeDetails}
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
