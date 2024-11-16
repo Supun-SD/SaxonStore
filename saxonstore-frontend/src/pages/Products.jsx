@@ -12,7 +12,7 @@ function Products() {
   const type = queryParams.get("type");
   const subType = queryParams.get("subtype");
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
