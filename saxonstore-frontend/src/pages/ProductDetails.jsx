@@ -8,7 +8,7 @@ import { useMemo, useState } from "react";
 import Button from "../components/Button";
 import { useDispatch } from "react-redux";
 import { addProduct } from "../features/cartSlice";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import sampleImage from "../assets/sample.jpg";
 import tshirt1 from "../assets/tshirt1.jpg";
@@ -20,162 +20,11 @@ import ColorSelector from "../components/ColorSelector";
 import SizeSelector from "../components/SizeSelector";
 
 function ProductDetails() {
-  const product = {
-    id: 1,
-    name: "Classic T-Shirt",
-    description:
-      "The Urban Explorer Jacket combines style and functionality, designed for those on the go. Made from a resilient blend of materials, this jacket ensures comfort and durability in any environment. Its modern design features a streamlined look, perfect for both active and casual wear, making it ideal for city life and outdoor adventures alike. Materials: 70% Cotton, 30% Nylon",
-    price: 2800.0,
-    category: "Men",
-    subcategory: "Tops",
-    created_at: "2024-10-20T14:30:00Z",
-    updated_at: "2024-11-10T08:45:00Z",
-    variants: [
-      {
-        productVariantId: 101,
-        color: {
-          id: 1,
-          name: "Black",
-          hex_value: "#000000",
-        },
-        size: {
-          id: 1,
-          name: "S",
-        },
-        quantity: 20,
-        sku: "CT-BLK-S-101",
-      },
-      {
-        productVariantId: 102,
-        color: {
-          id: 1,
-          name: "Black",
-          hex_value: "#000000",
-        },
-        size: {
-          id: 2,
-          name: "M",
-        },
-        quantity: 30,
-        sku: "CT-BLK-M-102",
-      },
-      {
-        productVariantId: 103,
-        color: {
-          id: 1,
-          name: "Black",
-          hex_value: "#000000",
-        },
-        size: {
-          id: 3,
-          name: "L",
-        },
-        quantity: 25,
-        sku: "CT-BLK-L-103",
-      },
-      {
-        productVariantId: 104,
-        color: {
-          id: 3,
-          name: "White",
-          hex_value: "#FFFFFF",
-        },
-        size: {
-          id: 1,
-          name: "S",
-        },
-        quantity: 15,
-        sku: "CT-WHT-S-104",
-      },
-      {
-        productVariantId: 105,
-        color: {
-          id: 3,
-          name: "White",
-          hex_value: "#FFFFFF",
-        },
-        size: {
-          id: 2,
-          name: "M",
-        },
-        quantity: 20,
-        sku: "CT-WHT-M-105",
-      },
-      {
-        productVariantId: 106,
-        color: {
-          id: 3,
-          name: "White",
-          hex_value: "#FFFFFF",
-        },
-        size: {
-          id: 4,
-          name: "XL",
-        },
-        quantity: 10,
-        sku: "CT-WHT-XL-106",
-      },
-      {
-        productVariantId: 107,
-        color: {
-          id: 5,
-          name: "Brown",
-          hex_value: "#8B4513",
-        },
-        size: {
-          id: 3,
-          name: "L",
-        },
-        quantity: 18,
-        sku: "CT-BRN-L-107",
-      },
-      {
-        productVariantId: 108,
-        color: {
-          id: 5,
-          name: "Brown",
-          hex_value: "#8B4513",
-        },
-        size: {
-          id: 2,
-          name: "M",
-        },
-        quantity: 22,
-        sku: "CT-BRN-M-108",
-      },
-      {
-        productVariantId: 109,
-        color: {
-          id: 6,
-          name: "Gray",
-          hex_value: "#808080",
-        },
-        size: {
-          id: 1,
-          name: "S",
-        },
-        quantity: 12,
-        sku: "CT-GRY-S-109",
-      },
-      {
-        productVariantId: 110,
-        color: {
-          id: 6,
-          name: "Gray",
-          hex_value: "#808080",
-        },
-        size: {
-          id: 4,
-          name: "XL",
-        },
-        quantity: 8,
-        sku: "CT-GRY-XL-110",
-      },
-    ],
-  };
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const { product } = location.state;
 
   const [selectedColor, setSelectedColor] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null);
@@ -184,28 +33,28 @@ function ProductDetails() {
   const images = [tshirt1, tshirt2, tshirt3, tshirt4];
 
   const colors = useMemo(() => {
-    return product.variants.reduce((acc, variant) => {
-      if (!acc.some((color) => color.id === variant.color.id)) {
-        acc.push(variant.color);
-      }
-      return acc;
-    }, []);
-  }, [product.variants]);
+    return product.productVariants
+      .map((variant) => variant.color)
+      .filter(
+        (value, index, self) =>
+          self.findIndex((t) => t.colorId === value.colorId) === index,
+      );
+  }, [product.productVariants]);
 
   const availableSizes = useMemo(() => {
     if (!selectedColor) return [];
-    return product.variants
-      .filter((variant) => variant.color.hex_value === selectedColor.hex_value)
+    return product.productVariants
+      .filter((variant) => variant.color.hexValue === selectedColor.hexValue)
       .map((variant) => variant.size.name);
-  }, [product.variants, selectedColor]);
+  }, [product.productVariants, selectedColor]);
 
   const selectedProductVariant = useMemo(() => {
-    return product.variants.find(
+    return product.productVariants.find(
       (variant) =>
         variant.size.name === selectedSize &&
-        variant.color.hex_value === selectedColor?.hex_value,
+        variant.color.hexValue === selectedColor?.hexValue,
     );
-  }, [product.variants, selectedSize, selectedColor]);
+  }, [product.productVariants, selectedSize, selectedColor]);
 
   const onColorSelect = (color) => {
     setSelectedColor(color);
@@ -218,17 +67,18 @@ function ProductDetails() {
 
   const onAddToCartClick = () => {
     if (selectedProductVariant) {
-      dispatch(
-        addProduct({
-          productVariantId: selectedProductVariant.productVariantId,
-          color: selectedColor.name,
-          size: selectedSize,
-          productName: product.name,
-          price: product.price,
-          quantity,
-          imgURL: sampleImage,
-        }),
-      );
+      const cartProduct = {
+        productId: product.productId,
+        productVariantId: selectedProductVariant.productVariantId,
+        color: selectedColor.name,
+        size: selectedSize,
+        productName: product.name,
+        price: product.price,
+        quantity,
+        imgURL: sampleImage,
+      };
+
+      dispatch(addProduct(cartProduct));
       navigate("/cart");
     }
   };

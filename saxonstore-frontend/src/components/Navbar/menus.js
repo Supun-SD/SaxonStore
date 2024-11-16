@@ -24,12 +24,12 @@ export const Menus = [
         nav: "/products?type=women&subtype=bottoms",
       },
       {
-        name: "Shoes",
-        nav: "/products?type=men&subtype=shoes",
+        name: "Footwear",
+        nav: "/products?type=men&subtype=footwear",
       },
       {
-        name: "Shoes",
-        nav: "/products?type=women&subtype=shoes",
+        name: "Footwear",
+        nav: "/products?type=women&subtype=footwear",
       },
       {
         name: "Accessories",

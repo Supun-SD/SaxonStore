@@ -8,9 +8,9 @@ const ColorSelector = ({ colors, selectedColor, onColorSelect }) => {
       <div className="flex gap-3">
         {colors.map((c) => (
           <div
-            key={c.hex_value}
+            key={c.hexValue}
             className={`cursor-pointer rounded-full border p-1 ${
-              selectedColor && selectedColor.hex_value === c.hex_value
+              selectedColor && selectedColor.hexValue === c.hexValue
                 ? "border-black"
                 : "border-transparent"
             }`}
@@ -18,7 +18,7 @@ const ColorSelector = ({ colors, selectedColor, onColorSelect }) => {
           >
             <div
               className="h-5 w-5 rounded-full"
-              style={{ backgroundColor: c.hex_value }}
+              style={{ backgroundColor: c.hexValue }}
             ></div>
           </div>
         ))}

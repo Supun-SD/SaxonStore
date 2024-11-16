@@ -97,7 +97,7 @@ public class ProductService {
 
     //Get products by category and subcategory
     public List<ProductDTO> getProductsByCategory(String category, String subcategory) {
-        List<Product> products = productRepo.findByCategoryAndSubcategoryAndIsListedTrue(category, subcategory);
+        List<Product> products = productRepo.findByCategoryIgnoreCaseAndSubcategoryIgnoreCaseAndIsListedTrue(category, subcategory);
         if (products.isEmpty()) {
             throw new ResourceNotFoundException("No products found for category: " + category + " and subcategory: " + subcategory);
         }

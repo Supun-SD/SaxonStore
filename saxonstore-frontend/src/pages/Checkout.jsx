@@ -34,26 +34,33 @@ function Checkout() {
     setIsLoading(true);
 
     const orderProducts = cartItems.map((item) => ({
-      productVariantId: item.productVariantId,
+      product: {
+        productId: item.productId,
+      },
+      productVariant: {
+        productVariantId: item.productVariantId,
+      },
       quantity: item.quantity,
     }));
 
     const order = {
-      customerId: 52,
-      orderDate: new Date().toISOString(),
+      user: {
+        userId: "bb12cfc2-85ae-4dd8-aac5-13a27b5ae09a",
+      },
       totalAmount: cartTotal + deliveryFee,
       status,
       orderProducts,
       delivery: {
         firstName,
         lastName,
+        phone: contactNo,
         address,
         city,
         postalCode,
         note: note || null,
       },
     };
-
+    console.log(order);
     try {
       await placeOrder(order);
       dispatch(clearCart());
