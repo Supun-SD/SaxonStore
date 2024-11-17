@@ -10,6 +10,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+
+import java.time.LocalDateTime;
+import java.util.UUID;
+
 @Entity
 @Table(name = "users")
 @NoArgsConstructor
@@ -19,10 +23,6 @@ public class User {
 
     @Id
     @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
     @Column(updatable = false, nullable = false)
     private UUID userId;
 
