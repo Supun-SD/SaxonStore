@@ -1,5 +1,6 @@
 package com.saxonscripts.saxonstore.service;
 import com.saxonscripts.saxonstore.dto.LoginRequestDTO;
+import com.saxonscripts.saxonstore.dto.LoginResponseDTO;
 import com.saxonscripts.saxonstore.dto.UserDTO;
 import com.saxonscripts.saxonstore.model.User;
 import com.saxonscripts.saxonstore.repo.UserRepo;
@@ -50,7 +51,7 @@ public class UserService {
         return modelMapper.map(user, UserDTO.class);
     }
 
-    public boolean login(LoginRequestDTO loginRequestDTO) {
+    public LoginResponseDTO login(LoginRequestDTO loginRequestDTO) {
         try {
             Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequestDTO.getEmail(), loginRequestDTO.getPassword())
@@ -61,15 +62,15 @@ public class UserService {
                 if (userOptional.isPresent()) {
                     User user = userOptional.get();
                     loginRequestDTO.setRole(user.getRole());
-                    return true;
+                    return modelMapper.map(user, LoginResponseDTO.class);//login successful
                 } else {
-                    return false; // User not found
+                    return null; // User not found
                 }
             } else {
-                return false; // Authentication failed
+                return null; // Authentication failed
             }
         } catch (AuthenticationException e) {
-            return false; // Login failed
+            return null; // Login failed
         }
     }
 

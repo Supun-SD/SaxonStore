@@ -2,6 +2,7 @@ package com.saxonscripts.saxonstore.controller;
 
 import com.saxonscripts.saxonstore.dto.UserDTO;
 import com.saxonscripts.saxonstore.dto.LoginRequestDTO;
+import com.saxonscripts.saxonstore.dto.LoginResponseDTO;
 import com.saxonscripts.saxonstore.service.UserService;
 import com.saxonscripts.saxonstore.util.EmailService;
 
@@ -49,17 +50,26 @@ public class UserController {
     @Autowired
     private EmailService emailService;
 
-    private String generateToken(String email, String role) {
+    private String generateToken(LoginResponseDTO user) {
         Instant now = Instant.now();
         long expiry = 36000L;
         // @formatter:off
 		JwtClaimsSet claims = JwtClaimsSet.builder()
-				.issuer("self")
-				.issuedAt(now)
-				.expiresAt(now.plusSeconds(expiry))
-				.subject(email)
-                .claim("role", role)
-				.build();
+                .issuer("self")
+                .issuedAt(now)
+                .expiresAt(now.plusSeconds(expiry))
+                .subject(user.getEmail()) // Set the subject to the email
+                .claim("userId", user.getUserId().toString())
+                .claim("firstName", user.getFirstName())
+                .claim("lastName", user.getLastName())
+                .claim("username", user.getUsername())
+                .claim("email", user.getEmail())
+                .claim("phone", user.getPhone())
+                .claim("address", user.getAddress())
+                .claim("city", user.getCity())
+                .claim("postalCode", user.getPostalCode())
+                .claim("role", user.getRole())
+                .build();
 		// @formatter:on
         return encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
     }
@@ -96,10 +106,10 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginRequestDTO loginRequestDTO) {
-        boolean isAuthenticated = userService.login(loginRequestDTO);
-        if (isAuthenticated) {
-            // Generate JWT token
-            String token = generateToken(loginRequestDTO.getEmail(), loginRequestDTO.getRole());
+        LoginResponseDTO user = userService.login(loginRequestDTO);
+        if (user != null) {
+            // Generate JWT token with user details
+            String token = generateToken(user);
             // Return token in the response
             return ResponseEntity.ok().body(token);
         } else {

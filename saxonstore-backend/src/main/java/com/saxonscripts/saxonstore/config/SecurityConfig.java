@@ -67,7 +67,7 @@ public class SecurityConfig {
              .permitAll() // Allow these endpoints without authentication
             .requestMatchers("/users/**").hasRole("CUSTOMER")
             .requestMatchers("/admin/**").hasRole("ADMIN")
-            .anyRequest().authenticated()) // Require authentication for any other requests
+            .anyRequest().authenticated()) // Require authentication for any other requests (request that doesn't need a specific role )
             .oauth2ResourceServer(oauth2 -> oauth2
             .jwt(jwt -> jwt
                 .decoder(jwtDecoder())
