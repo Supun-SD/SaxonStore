@@ -1,8 +1,28 @@
 import { createSlice } from "@reduxjs/toolkit";
+import sampleImage from "../assets/sample.jpg";
 
 const initialStateCart = {
-  cartItems: [],
-  cartTotal: 0.0,
+  cartItems: [
+    {
+      id: 1,
+      productName: "T-Shirt",
+      price: 2500,
+      color: "Blue",
+      size: "M",
+      quantity: 2,
+      imgURL: sampleImage,
+    },
+    {
+      id: 2,
+      productName: "Jeans",
+      price: 1600,
+      color: "Black",
+      size: "L",
+      quantity: 1,
+      imgURL: sampleImage,
+    },
+  ],
+  cartTotal: 6600,
 };
 
 const cartSlice = createSlice({
@@ -13,7 +33,7 @@ const cartSlice = createSlice({
       const product = action.payload;
       const existingItem = state.cartItems.find(
         (item) =>
-          item.productVariantId === product.productVariantId &&
+          item.id === product.id &&
           item.size === product.size &&
           item.color === product.color,
       );
