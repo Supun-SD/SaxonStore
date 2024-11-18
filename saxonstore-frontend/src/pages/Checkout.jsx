@@ -63,7 +63,6 @@ function Checkout() {
         note: note || null,
       },
     };
-    console.log(order);
     try {
       await placeOrder(order, token);
       dispatch(clearCart());
