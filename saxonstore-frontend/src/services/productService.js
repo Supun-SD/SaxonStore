@@ -1,6 +1,10 @@
 import axios from "axios";
 import baseURL from "./apiConfig";
 
+export const createProduct = async (product) => {
+  return await axios.post(`${baseURL}/product`, product);
+};
+
 export const getAllProducts = async () => {
   return await axios.get(`${baseURL}/product`);
 };
