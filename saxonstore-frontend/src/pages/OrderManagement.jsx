@@ -7,16 +7,19 @@ import { toast } from "../hooks/use-toast";
 import SyncLoader from "react-spinners/SyncLoader";
 import PopUpModel from "../components/PopUpModel";
 import OrderDetails from "../components/OrderDetails";
+import { useSelector } from "react-redux";
 
 function OrderManagement() {
   const [isLoading, setIsLoading] = useState(false);
   const [orders, setOrders] = useState([]);
 
+  const token = useSelector((state) => state.user.token);
+
   useEffect(() => {
     const fetchOrders = async () => {
       try {
         setIsLoading(true);
-        const response = await getAllOrders();
+        const response = await getAllOrders(token);
         if (response.data.httpCode === 404) {
           setOrders([]);
         } else {

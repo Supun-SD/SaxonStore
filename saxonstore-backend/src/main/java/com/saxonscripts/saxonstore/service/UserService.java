@@ -2,6 +2,7 @@ package com.saxonscripts.saxonstore.service;
 import com.saxonscripts.saxonstore.dto.LoginRequestDTO;
 import com.saxonscripts.saxonstore.dto.LoginResponseDTO;
 import com.saxonscripts.saxonstore.dto.UserDTO;
+import com.saxonscripts.saxonstore.exception.ResourceNotFoundException;
 import com.saxonscripts.saxonstore.model.User;
 import com.saxonscripts.saxonstore.repo.UserRepo;
 import org.modelmapper.ModelMapper;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -93,5 +95,17 @@ public class UserService {
         }
     }
 
-    
+    public UserDTO updateUser(UUID id, UserDTO userDTO) {
+        User existingUser = userRepo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
+        existingUser.setFirstName(userDTO.getFirstName());
+        existingUser.setLastName(userDTO.getLastName());
+        existingUser.setAddress(userDTO.getAddress());
+        existingUser.setCity(userDTO.getCity());
+        existingUser.setPostalCode(userDTO.getPostalCode());
+        existingUser.setPhone(userDTO.getPhone());
+
+        User updatedUser = userRepo.save(existingUser);
+        return modelMapper.map(updatedUser, UserDTO.class);
+    }
 }

@@ -30,9 +30,13 @@ import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import com.saxonscripts.saxonstore.repo.UserRepo;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
+import java.util.List;
 import java.util.Optional;
 import java.util.Collections;
 
@@ -55,14 +59,16 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         // @formatter:off
 		http
+        .cors(cors -> cors.configurationSource(corsConfigurationSource()))
         .csrf(csrf -> csrf.disable()) // Disable CSRF for simplicity (not recommended for production)
         .authorizeHttpRequests(authorize -> authorize
             .requestMatchers(
-             "/users/login",
+              "/users/login",
              "/users/forgotPassword",
              "/users/resetPassword",
              "/users/createUser",
-             "/error"
+             "/error",
+             "/product/**"
              )
              .permitAll() // Allow these endpoints without authentication
             .requestMatchers("/users/**").hasRole("CUSTOMER")
@@ -137,4 +143,16 @@ public class SecurityConfig {
         return jwtAuthenticationConverter;
     }
 
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
 }

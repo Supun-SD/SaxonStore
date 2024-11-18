@@ -1,7 +1,5 @@
-import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import {
   Form,
   FormField,
@@ -9,57 +7,60 @@ import {
   FormLabel,
   FormControl,
 } from "@/components/ui/form";
+import { useSelector } from "react-redux";
+import { SyncLoader } from "react-spinners";
+import { useDispatch } from "react-redux";
+import { update } from "../services/userService";
+import { updateUser as updateAction } from "../features/userSlice";
+import { toast } from "../hooks/use-toast";
+import { useState } from "react";
 
 function UpdateInfo() {
-  const form = useForm();
-  const { handleSubmit, control, setValue } = form; // `setValue` allows you to set the form values programmatically
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const user = useSelector((state) => state.user.user);
+  const token = useSelector((state) => state.user.token);
 
-  /*useEffect(() => {
-    const fetchProfileData = async () => {
-      try {
-        const response = await axios.get("/api/user/profile"); // Replace with your actual API endpoint
-        const profileData = response.data;
-
-        // Set the fetched data into the form fields
-        setValue("firstName", profileData.firstName);
-        setValue("lastName", profileData.lastName);
-        setValue("address", profileData.address);
-        setValue("city", profileData.city);
-        setValue("postalCode", profileData.postalCode);
-        setValue("phone", profileData.phone);
-
-        setLoading(false); // Stop loading once data is fetched
-      } catch (err) {
-        console.error("Error fetching profile data", err);
-        setError("Failed to load profile data.");
-        setLoading(false);
-      }
-    };
-
-    fetchProfileData();
-  }, [setValue]);*/
-
+  const form = useForm({
+    defaultValues: {
+      firstName: user.firstName,
+      lastName: user.lastName,
+      address: user.address,
+      city: user.city,
+      postalCode: user.postalCode,
+      phone: user.phone,
+    },
+  });
+  const { control } = form;
   const onSubmit = async (data) => {
+    setIsLoading(true);
     try {
-      setLoading(true);
-      // Send the updated data to the backend
-      const response = await axios.put("/api/user/profile", data); // Replace with your actual API endpoint
-      console.log("Updated Address Information:", response.data);
+      await update(data, user.userId, token);
+      dispatch(updateAction(data));
+      toast({
+        description: "User info updated successfully",
+        className: "border-green-500",
+      });
+    } catch (error) {
+      const statusCode = error.response?.status;
 
-      setLoading(false);
-      // Optionally, handle the success, such as showing a success message
-    } catch (err) {
-      console.error("Error updating profile data", err);
-      setError("Failed to update profile.");
-      setLoading(false);
+      toast({
+        description:
+          statusCode === 400
+            ? "User doesn't exists"
+            : "An unexpected error occurred. Please try again.",
+        className: `border rounded-lg p-4 ${
+          statusCode === 400 ? "border-red-500" : "border-yellow-500"
+        }`,
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center p-4">
+    <div className="mx-auto mb-20 mt-36 flex w-full max-w-7xl items-center justify-center">
       <div className="w-full max-w-lg rounded-2xl border-2 border-gray-300 bg-white p-8">
         <h2 className="mb-8 text-center text-2xl">UPDATE ADDRESS</h2>
         <Form {...control}>
@@ -192,12 +193,18 @@ function UpdateInfo() {
               >
                 Back
               </button>
-              <button
-                type="submit"
-                className="h-12 w-1/3 rounded-l border border-gray-900 bg-white text-lg font-normal text-black transition-colors duration-200 hover:bg-gray-800 hover:text-white"
-              >
-                Update
-              </button>
+              {isLoading ? (
+                <div className="flex justify-center p-5">
+                  <SyncLoader size={8} />
+                </div>
+              ) : (
+                <button
+                  type="submit"
+                  className="h-12 w-1/3 border border-gray-900 bg-white text-lg font-normal text-black transition-colors duration-200 hover:bg-black hover:text-white"
+                >
+                  Update
+                </button>
+              )}
             </div>
           </form>
         </Form>

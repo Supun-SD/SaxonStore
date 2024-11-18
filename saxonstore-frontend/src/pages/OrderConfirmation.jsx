@@ -7,12 +7,13 @@ import { useSelector } from "react-redux";
 import { useToast } from "../hooks/use-toast";
 
 function OrderConfirmation() {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [address, setAddress] = useState("");
-  const [city, setCity] = useState("");
-  const [postalCode, setPostalCode] = useState("");
-  const [contactNo, setContactNo] = useState("");
+  const user = useSelector((state) => state.user.user);
+  const [firstName, setFirstName] = useState(user.firstName);
+  const [lastName, setLastName] = useState(user.lastName);
+  const [address, setAddress] = useState(user.address);
+  const [city, setCity] = useState(user.city);
+  const [postalCode, setPostalCode] = useState(user.postalCode);
+  const [contactNo, setContactNo] = useState(user.phone);
   const [note, setNote] = useState("");
 
   const cartItems = useSelector((state) => state.cart.cartItems);

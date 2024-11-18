@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { z } from "zod"; 
+import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
@@ -21,7 +21,7 @@ const contactUsSchema = z.object({
 
 function ContactUs() {
   const form = useForm({
-    resolver: zodResolver(contactUsSchema), 
+    resolver: zodResolver(contactUsSchema),
     defaultValues: {
       name: "",
       email: "",
@@ -52,7 +52,7 @@ function ContactUs() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center p-4">
+    <div className="mx-auto mb-20 mt-36 flex w-full max-w-7xl items-center justify-center">
       <div className="w-full max-w-lg rounded-2xl border-2 border-gray-300 bg-white p-8">
         <h2 className="mb-8 text-center text-2xl font-normal">CONTACT US</h2>
 

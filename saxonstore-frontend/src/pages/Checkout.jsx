@@ -21,6 +21,9 @@ function Checkout() {
   const cartItems = useSelector((state) => state.cart.cartItems);
   const cartTotal = useSelector((state) => state.cart.cartTotal);
 
+  const user = useSelector((state) => state.user.user);
+  const token = useSelector((state) => state.user.token);
+
   const [isLoading, setIsLoading] = useState(false);
 
   const deliveryFee = 400.0;
@@ -45,7 +48,7 @@ function Checkout() {
 
     const order = {
       user: {
-        userId: "bb12cfc2-85ae-4dd8-aac5-13a27b5ae09a",
+        userId: user.userId,
       },
       totalAmount: cartTotal + deliveryFee,
       status,
@@ -62,7 +65,7 @@ function Checkout() {
     };
     console.log(order);
     try {
-      await placeOrder(order);
+      await placeOrder(order, token);
       dispatch(clearCart());
       navigate("/cart");
       toast({
@@ -93,7 +96,7 @@ function Checkout() {
               {[
                 { label: "Name", value: firstName + " " + lastName },
                 { label: "Contact No", value: "+94" + contactNo },
-                { label: "Email", value: "johndoe@gmail.com" },
+                { label: "Email", value: user.email },
                 {
                   label: "Deliver to",
                   value: address + ", " + city + ", " + postalCode,

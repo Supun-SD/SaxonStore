@@ -18,17 +18,12 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
 import java.util.Map;
 import java.util.UUID;
 import java.util.List;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 //import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
@@ -54,7 +49,7 @@ public class UserController {
         Instant now = Instant.now();
         long expiry = 36000L;
         // @formatter:off
-		JwtClaimsSet claims = JwtClaimsSet.builder()
+        JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer("self")
                 .issuedAt(now)
                 .expiresAt(now.plusSeconds(expiry))
@@ -65,12 +60,12 @@ public class UserController {
                 .claim("username", user.getUsername())
                 .claim("email", user.getEmail())
                 .claim("phone", user.getPhone())
-                .claim("address", user.getAddress())
-                .claim("city", user.getCity())
-                .claim("postalCode", user.getPostalCode())
+                .claim("address", user.getAddress() != null ? user.getAddress() : "")
+                .claim("city", user.getCity() != null ? user.getCity() : "")
+                .claim("postalCode", user.getPostalCode() != null ? user.getPostalCode() : "")
                 .claim("role", user.getRole())
                 .build();
-		// @formatter:on
+        // @formatter:on
         return encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
     }
 
@@ -115,6 +110,12 @@ public class UserController {
         } else {
             return ResponseEntity.status(401).body("Invalid email or password");
         }
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<UserDTO> updateUser(@PathVariable UUID id, @RequestBody UserDTO userDTO) {
+        UserDTO updatedUser = userService.updateUser(id, userDTO);
+        return ResponseEntity.ok(updatedUser);
     }
 
     @PostMapping("/forgotPassword")
