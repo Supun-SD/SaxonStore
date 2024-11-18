@@ -1,7 +1,6 @@
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import {
   Form,
@@ -11,6 +10,10 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
+import { toast } from "../hooks/use-toast";
+import { SyncLoader } from "react-spinners";
+import { register as registerAction } from "../services/userService";
+import { useState } from "react";
 
 const signUpSchema = z
   .object({
@@ -46,20 +49,40 @@ function SignUp() {
     },
   });
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const onSubmit = async (data) => {
+    setIsLoading(true);
     try {
-      const response = await axios.post("/api/register", data);
-      console.log("Signup successful:", response.data);
-      alert("Account created successfully!");
+      await registerAction({
+        email: data.email,
+        password: data.password,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        role: "CUSTOMER",
+        phone: data.phone,
+        username: `${data.firstName}${data.lastName.charAt(0)}`,
+      });
       navigate("/sign-in");
     } catch (error) {
-      console.error("Signup failed:", error);
-      alert("Signup failed.");
+      const statusCode = error.response?.status;
+
+      toast({
+        description:
+          statusCode === 400
+            ? "User already exists"
+            : "An unexpected error occurred. Please try again.",
+        className: `border rounded-lg p-4 ${
+          statusCode === 400 ? "border-red-500" : "border-yellow-500"
+        }`,
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="mt-8 flex min-h-screen items-center justify-center bg-white p-8 pt-16">
+    <div className="mt-24 flex min-h-screen items-center justify-center bg-white p-8 pt-16">
       <div className="w-full max-w-md rounded-2xl border-2 border-gray-300 bg-white p-4 sm:p-12 lg:max-w-lg">
         <h2 className="mb-6 text-center text-2xl font-normal">
           CREATE AN ACCOUNT
@@ -194,15 +217,20 @@ function SignUp() {
                 </FormItem>
               )}
             />
-
-            <div className="pt-3">
-              <button
-                type="submit"
-                className="h-12 w-full rounded-l border border-gray-900 bg-white text-xl font-normal text-black transition-colors duration-200 hover:bg-gray-800 hover:text-white"
-              >
-                Sign Up
-              </button>
-            </div>
+            {isLoading ? (
+              <div className="flex justify-center p-5">
+                <SyncLoader size={8} />
+              </div>
+            ) : (
+              <div className="pt-3">
+                <button
+                  type="submit"
+                  className="h-12 w-full rounded-l border border-gray-900 bg-white text-xl font-normal text-black transition-colors duration-200 hover:bg-gray-800 hover:text-white"
+                >
+                  Sign Up
+                </button>
+              </div>
+            )}
 
             <div className="mt-4 text-center">
               <span className="text-sm text-gray-600">

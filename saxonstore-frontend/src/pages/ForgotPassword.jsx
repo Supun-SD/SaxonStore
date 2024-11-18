@@ -1,8 +1,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import {
   Form,
   FormField,
@@ -11,18 +9,19 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
+import { useState } from "react";
+import { forgotPassword } from "../services/userService";
+import { toast } from "../hooks/use-toast";
+import { SyncLoader } from "react-spinners";
 
 const forgotPasswordSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
 });
 
 function ForgotPassword() {
-  const navigate = useNavigate();
-  // Initialize form methods
   const {
     control,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(forgotPasswordSchema),
@@ -30,26 +29,30 @@ function ForgotPassword() {
       email: "",
     },
   });
-  // Form submit handler
-  const onSubmit = async (data) => {
-    try {
-      const response = await axios.post("", {
-        email: data.email,
-      });
 
-      // Handle success response
-      if (response.status === 200) {
-        console.log("Password reset link sent:", response.data);
-        alert("Password reset link has been sent to your email address.");
-        reset(); // Reset the form fields
-        navigate("/sign-in"); // Redirect to login page
+  const [isLoading, setIsLoading] = useState(false);
+  const onSubmit = async (data) => {
+    setIsLoading(true);
+    try {
+      const response = await forgotPassword(data.email);
+      if (response.data.httpCode === 500) {
+        toast({
+          description: response.data.message,
+          className: "border rounded-lg p-4 border-red-500",
+        });
+      } else {
+        toast({
+          description: response.data,
+          className: "border rounded-lg p-4 border-green-500",
+        });
       }
     } catch (error) {
-      // Handle error
-      console.error("Error sending password reset link:", error);
-      alert(
-        error.response?.data?.message || "Failed to send password reset link.",
-      );
+      toast({
+        description: "An unexpected error occurred. Please try again.",
+        className: "border rounded-lg p-4",
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
   return (
@@ -82,12 +85,18 @@ function ForgotPassword() {
               )}
             />
 
-            <button
-              type="submit"
-              className="h-12 w-full rounded-l border border-gray-900 bg-white text-xl font-normal text-black transition-colors duration-200 hover:bg-gray-800 hover:text-white"
-            >
-              Send Password Reset Link
-            </button>
+            {isLoading ? (
+              <div className="flex justify-center p-5">
+                <SyncLoader size={8} />
+              </div>
+            ) : (
+              <button
+                type="submit"
+                className="h-12 w-full rounded-l border border-gray-900 bg-white text-xl font-normal text-black transition-colors duration-200 hover:bg-gray-800 hover:text-white"
+              >
+                Send Password Reset Link
+              </button>
+            )}
 
             <div className="mt-4 text-center">
               <span className="text-sm text-gray-600">

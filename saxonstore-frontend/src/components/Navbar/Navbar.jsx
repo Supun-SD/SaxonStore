@@ -1,12 +1,18 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import DesktopMenu from "./DesktopMenu";
 import { Menus } from "./Menus";
 import MobMenu from "./MobMenu";
 import { Search, ShoppingCart } from "lucide-react";
+import { useSelector } from "react-redux";
+import { LogOut } from "lucide-react";
+import { useDispatch } from "react-redux";
+import { logout } from "../../features/userSlice";
 
 function Navbar() {
-  const isLoggedIn = false;
-  const userRole = "admin";
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const isLoggedIn = useSelector((state) => state.user.isAuthenticated);
+  const userRole = useSelector((state) => state.user.role);
 
   return (
     <div>
@@ -37,7 +43,7 @@ function Navbar() {
                 Search
               </Link>
               {isLoggedIn ? (
-                userRole === "admin" ? (
+                userRole === "ADMIN" ? (
                   <>
                     <Link to="admin/orders">Orders</Link>
                     <Link to="admin/my-products">My Products</Link>
@@ -56,6 +62,17 @@ function Navbar() {
                   </Link>
                   <Link to="sign-in">Sign In</Link>
                 </>
+              )}
+              {isLoggedIn && (
+                <div
+                  className="cursor-pointer"
+                  onClick={() => {
+                    dispatch(logout());
+                    navigate("/sign-in");
+                  }}
+                >
+                  <LogOut size={18} />
+                </div>
               )}
             </div>
           </div>

@@ -5,18 +5,25 @@ import ProgressBar from "../components/ProgressBar";
 
 import { updateOrder } from "../services/orderService";
 import { toast } from "../hooks/use-toast";
+import { useSelector } from "react-redux";
 
 function OrderDetails({ order }) {
   const [isLoading, setIsLoading] = useState(false);
   const [orderStatus, setOrderStatus] = useState(order.status);
+  const role = useSelector((state) => state.user.role);
+  const token = useSelector((state) => state.user.token);
 
   const onButtonClick = async (status) => {
     setIsLoading(true);
 
     try {
-      await updateOrder(order.orderId, {
-        status: status,
-      });
+      await updateOrder(
+        order.orderId,
+        {
+          status: status,
+        },
+        token,
+      );
       toast({
         description: `Order status updated to ${status} successfully`,
         className: "border border-green-500 rounded-lg p-4",
@@ -119,7 +126,7 @@ function OrderDetails({ order }) {
           ))}
         </div>
       </div>
-      {orderStatus !== "DELIVERED" && (
+      {orderStatus !== "DELIVERED" && role === "ADMIN" && (
         <div className="flex w-full flex-col justify-end">
           <div className="ml-auto mt-6 w-60">
             <Button
