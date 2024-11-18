@@ -16,29 +16,95 @@ import UpdateInfo from "./pages/UpdateInfo";
 import AddProduct from "./pages/AddProduct";
 import OrderManagement from "./pages/OrderManagement";
 import ProductManagement from "./pages/ProductManagement";
+import ProtectedRoute from "./components/ProtectedRoute";
+import ResetPassword from "./pages/ResetPassword";
+import Footer from "./components/Footer";
 
 export default function App() {
   return (
-    <>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/products" element={<Products />} />
-        <Route path="/products/:id" element={<ProductDetails />} />
-        <Route path="/contactus" element={<ContactUs />} />
-        <Route path="/search" element={<Search />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/order-confirmation" element={<OrderConfirmation />} />
-        <Route path="/checkout" element={<Checkout />} />
-        <Route path="/sign-in" element={<LogIn />} />
-        <Route path="/sign-up" element={<SignUp />} />
-        <Route path="/my-account" element={<MyAccount />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/update-info" element={<UpdateInfo />} />
-        <Route path="/admin/add-product" element={<AddProduct />} />
-        <Route path="/admin/orders" element={<OrderManagement />} />
-        <Route path="/admin/my-products" element={<ProductManagement />} />
-      </Routes>
-    </>
+    <div className="flex min-h-screen flex-col justify-between">
+      <div>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/products/:id" element={<ProductDetails />} />
+          <Route path="/contactus" element={<ContactUs />} />
+          <Route path="/search" element={<Search />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/sign-in" element={<LogIn />} />
+          <Route path="/sign-up" element={<SignUp />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+
+          <Route
+            path="/order-confirmation"
+            element={
+              <ProtectedRoute isAuthenticatedRequired={true}>
+                <OrderConfirmation />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/checkout"
+            element={
+              <ProtectedRoute isAuthenticatedRequired={true}>
+                <Checkout />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/my-account"
+            element={
+              <ProtectedRoute isAuthenticatedRequired={true}>
+                <MyAccount />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/update-info"
+            element={
+              <ProtectedRoute isAuthenticatedRequired={true}>
+                <UpdateInfo />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/add-product"
+            element={
+              <ProtectedRoute
+                requiredRole="ADMIN"
+                isAuthenticatedRequired={true}
+              >
+                <AddProduct />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/orders"
+            element={
+              <ProtectedRoute
+                requiredRole="ADMIN"
+                isAuthenticatedRequired={true}
+              >
+                <OrderManagement />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/my-products"
+            element={
+              <ProtectedRoute
+                requiredRole="ADMIN"
+                isAuthenticatedRequired={true}
+              >
+                <ProductManagement />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </div>
+      <Footer />
+    </div>
   );
 }
