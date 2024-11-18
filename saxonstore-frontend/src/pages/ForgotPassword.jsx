@@ -46,7 +46,8 @@ function ForgotPassword() {
           className: "border rounded-lg p-4 border-green-500",
         });
       }
-    } catch (error) {
+    } catch (e) {
+      console.log(e);
       toast({
         description: "An unexpected error occurred. Please try again.",
         className: "border rounded-lg p-4",

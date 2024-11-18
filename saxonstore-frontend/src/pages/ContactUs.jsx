@@ -29,12 +29,10 @@ function ContactUs() {
       message: "",
     },
   });
-  const { handleSubmit, control } = useForm();
 
   const onSubmit = async (data) => {
     try {
       console.log("Contact Us form data:", data);
-      // Example API call to send the data to backend
       const response = await fetch("/api/contact-us");
 
       if (!response.ok) {
@@ -43,7 +41,6 @@ function ContactUs() {
 
       console.log("Message sent successfully!");
       alert("Your message has been sent.");
-      // Optionally reset the form here
       form.reset();
     } catch (error) {
       console.error("Error submitting contact form:", error);
@@ -58,7 +55,6 @@ function ContactUs() {
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            {/* Name */}
             <FormField
               name="name"
               control={form.control}
@@ -76,7 +72,6 @@ function ContactUs() {
                 </FormItem>
               )}
             />
-            {/* Email */}
             <FormField
               name="email"
               control={form.control}
@@ -94,8 +89,6 @@ function ContactUs() {
                 </FormItem>
               )}
             />
-
-            {/* Phone */}
             <FormField
               name="phone"
               control={form.control}
@@ -118,8 +111,6 @@ function ContactUs() {
                 </FormItem>
               )}
             />
-
-            {/* Message */}
             <FormField
               name="message"
               control={form.control}
@@ -137,8 +128,6 @@ function ContactUs() {
                 </FormItem>
               )}
             />
-
-            {/* Submit Button */}
             <div className="mt-8 flex justify-center">
               <button
                 type="submit"

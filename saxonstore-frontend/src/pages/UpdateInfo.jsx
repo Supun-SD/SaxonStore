@@ -65,7 +65,6 @@ function UpdateInfo() {
         <h2 className="mb-8 text-center text-2xl">UPDATE ADDRESS</h2>
         <Form {...control}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            {/* First Name and Last Name */}
             <div className="flex gap-4">
               <FormField
                 name="firstName"
@@ -102,8 +101,6 @@ function UpdateInfo() {
                 )}
               />
             </div>
-
-            {/* Address */}
             <FormField
               name="address"
               control={control}
@@ -121,8 +118,6 @@ function UpdateInfo() {
                 </FormItem>
               )}
             />
-
-            {/* City and Postal Code */}
             <div className="flex gap-4">
               <FormField
                 name="city"
@@ -159,8 +154,6 @@ function UpdateInfo() {
                 )}
               />
             </div>
-
-            {/* Phone */}
             <FormField
               name="phone"
               control={control}
@@ -183,8 +176,6 @@ function UpdateInfo() {
                 </FormItem>
               )}
             />
-
-            {/* Buttons */}
             <div className="mt-8 flex justify-between">
               <button
                 type="button"

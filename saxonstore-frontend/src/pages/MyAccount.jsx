@@ -58,7 +58,6 @@ function MyAccount() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-gray-100 py-10">
       <div className="flex w-full max-w-4xl gap-6">
-        {/* My Account Section */}
         <div className="flex-1 rounded-lg bg-gray-200 p-8">
           <h3 className="mb-6 text-center text-xl font-semibold">My Account</h3>
           <hr className="my-4 border-gray-300" />
@@ -91,7 +90,6 @@ function MyAccount() {
           </>
         </div>
 
-        {/* My Orders Section */}
         <div className="flex-1 rounded-lg bg-gray-200 p-8">
           <h3 className="mb-6 text-center text-xl font-semibold">My Orders</h3>
           <hr className="my-4 border-gray-300" />

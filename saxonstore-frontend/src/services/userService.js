@@ -20,7 +20,7 @@ export const update = async (data, userId, token) => {
 export const forgotPassword = async (email) => {
   return await axios.post(`${baseURL}/users/forgotPassword`, {
     email: email,
-    returnUrl: "http://localhost:3000/sign-in",
+    returnUrl: "http://localhost:3000/reset-password",
   });
 };
 

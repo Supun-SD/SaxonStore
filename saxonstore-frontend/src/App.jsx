@@ -17,6 +17,7 @@ import AddProduct from "./pages/AddProduct";
 import OrderManagement from "./pages/OrderManagement";
 import ProductManagement from "./pages/ProductManagement";
 import ProtectedRoute from "./components/ProtectedRoute";
+import ResetPassword from "./pages/ResetPassword";
 
 export default function App() {
   return (
@@ -29,6 +30,10 @@ export default function App() {
         <Route path="/contactus" element={<ContactUs />} />
         <Route path="/search" element={<Search />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/sign-in" element={<LogIn />} />
+        <Route path="/sign-up" element={<SignUp />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
 
         <Route
           path="/order-confirmation"
@@ -46,9 +51,6 @@ export default function App() {
             </ProtectedRoute>
           }
         />
-
-        <Route path="/sign-in" element={<LogIn />} />
-        <Route path="/sign-up" element={<SignUp />} />
         <Route
           path="/my-account"
           element={
@@ -57,9 +59,6 @@ export default function App() {
             </ProtectedRoute>
           }
         />
-
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-
         <Route
           path="/update-info"
           element={
@@ -68,7 +67,6 @@ export default function App() {
             </ProtectedRoute>
           }
         />
-
         <Route
           path="/admin/add-product"
           element={

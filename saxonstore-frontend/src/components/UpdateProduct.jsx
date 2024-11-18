@@ -36,7 +36,6 @@ function UpdateProduct({ product }) {
     setIsLoading(true);
 
     try {
-      // Build the productVariants array from stock
       const productVariants = [];
       stock.forEach((row) => {
         sizes.forEach((size) => {

@@ -9,8 +9,12 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
+import { useNavigate } from "react-router-dom";
+import { resetPassword } from "../services/userService";
+import { useState } from "react";
+import { toast } from "../hooks/use-toast";
+import { SyncLoader } from "react-spinners";
 
-// Define validation schema using Zod
 const resetPasswordSchema = z
   .object({
     newPassword: z
@@ -24,7 +28,6 @@ const resetPasswordSchema = z
   });
 
 function ResetPassword() {
-  // Initialize form methods
   const form = useForm({
     resolver: zodResolver(resetPasswordSchema),
     defaultValues: {
@@ -33,10 +36,23 @@ function ResetPassword() {
     },
   });
 
-  // Form submit handler
-  const onSubmit = (data) => {
-    console.log("Password reset data:", data);
-    // Logic to handle password reset goes here
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const onSubmit = async (data) => {
+    setIsLoading(true);
+    try {
+      await resetPassword(data);
+      navigate("/log-in");
+    } catch (error) {
+      console.log(error);
+      toast({
+        description: "An unexpected error occurred. Please try again.",
+        className: "border rounded-lg p-4 border-red-500",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -48,7 +64,6 @@ function ResetPassword() {
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            {/* New Password Field */}
             <FormField
               name="newPassword"
               control={form.control}
@@ -71,7 +86,6 @@ function ResetPassword() {
               )}
             />
 
-            {/* Confirm Password Field */}
             <FormField
               name="confirmPassword"
               control={form.control}
@@ -95,16 +109,19 @@ function ResetPassword() {
                 </FormItem>
               )}
             />
+            {isLoading ? (
+              <div className="flex justify-center p-5">
+                <SyncLoader size={8} />
+              </div>
+            ) : (
+              <button
+                type="submit"
+                className="h-12 w-full rounded-l border border-gray-900 bg-white text-xl font-normal text-black transition-colors duration-200 hover:bg-gray-800 hover:text-white"
+              >
+                Reset Password
+              </button>
+            )}
 
-            {/* Submit Button */}
-            <button
-              type="submit"
-              className="h-12 w-full rounded-l border border-gray-900 bg-white text-xl font-normal text-black transition-colors duration-200 hover:bg-gray-800 hover:text-white"
-            >
-              Reset Password
-            </button>
-
-            {/* Link to Sign In */}
             <div className="mt-4 text-center">
               <span className="text-sm text-gray-600">
                 Remembered your password?{" "}
