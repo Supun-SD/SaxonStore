@@ -28,13 +28,19 @@ function MyAccount() {
       try {
         setIsLoading(true);
         const response = await getAllCustomerOrders(user.userId, token);
-        response.data.httpCode === 404
-          ? setOrders([])
-          : setOrders(response.data.data);
+
+        if (response.data.httpCode === 404) {
+          setOrders([]);
+        } else {
+          const sortedOrders = response.data.data.sort(
+            (a, b) => new Date(b.orderDate) - new Date(a.orderDate),
+          );
+          setOrders(sortedOrders);
+        }
       } catch (error) {
-        console.error("Error getting yours orders:", error);
+        console.error("Error getting your orders:", error);
         toast({
-          description: "There was a problem getting your order",
+          description: "There was a problem getting your orders.",
           className: "border border-red-500 rounded-lg p-4",
         });
       } finally {

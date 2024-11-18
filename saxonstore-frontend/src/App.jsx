@@ -16,6 +16,7 @@ import UpdateInfo from "./pages/UpdateInfo";
 import AddProduct from "./pages/AddProduct";
 import OrderManagement from "./pages/OrderManagement";
 import ProductManagement from "./pages/ProductManagement";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 export default function App() {
   return (
@@ -28,16 +29,70 @@ export default function App() {
         <Route path="/contactus" element={<ContactUs />} />
         <Route path="/search" element={<Search />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/order-confirmation" element={<OrderConfirmation />} />
-        <Route path="/checkout" element={<Checkout />} />
+
+        <Route
+          path="/order-confirmation"
+          element={
+            <ProtectedRoute isAuthenticatedRequired={true}>
+              <OrderConfirmation />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/checkout"
+          element={
+            <ProtectedRoute isAuthenticatedRequired={true}>
+              <Checkout />
+            </ProtectedRoute>
+          }
+        />
+
         <Route path="/sign-in" element={<LogIn />} />
         <Route path="/sign-up" element={<SignUp />} />
-        <Route path="/my-account" element={<MyAccount />} />
+        <Route
+          path="/my-account"
+          element={
+            <ProtectedRoute isAuthenticatedRequired={true}>
+              <MyAccount />
+            </ProtectedRoute>
+          }
+        />
+
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/update-info" element={<UpdateInfo />} />
-        <Route path="/admin/add-product" element={<AddProduct />} />
-        <Route path="/admin/orders" element={<OrderManagement />} />
-        <Route path="/admin/my-products" element={<ProductManagement />} />
+
+        <Route
+          path="/update-info"
+          element={
+            <ProtectedRoute isAuthenticatedRequired={true}>
+              <UpdateInfo />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/add-product"
+          element={
+            <ProtectedRoute requiredRole="ADMIN" isAuthenticatedRequired={true}>
+              <AddProduct />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/orders"
+          element={
+            <ProtectedRoute requiredRole="ADMIN" isAuthenticatedRequired={true}>
+              <OrderManagement />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/my-products"
+          element={
+            <ProtectedRoute requiredRole="ADMIN" isAuthenticatedRequired={true}>
+              <ProductManagement />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </>
   );
