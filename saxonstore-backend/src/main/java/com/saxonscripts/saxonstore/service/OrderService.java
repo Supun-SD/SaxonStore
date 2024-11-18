@@ -4,6 +4,8 @@ import com.saxonscripts.saxonstore.dto.*;
 import com.saxonscripts.saxonstore.exception.ResourceNotFoundException;
 import com.saxonscripts.saxonstore.model.*;
 import com.saxonscripts.saxonstore.repo.OrderRepo;
+import com.saxonscripts.saxonstore.repo.ProductVariantRepo;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,10 +23,31 @@ public class OrderService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private ProductVariantRepo productVariantRepo;
+
     @Transactional
     public OrderDTO createOrder(OrderDTO orderDTO) {
         Order order = mapOrderDTOToEntity(orderDTO);
+
         Order savedOrder = orderRepo.save(order);
+
+        for (OrderProductDTO orderProductDTO : orderDTO.getOrderProducts()) {
+            ProductVariantDTO productVariantDTO = orderProductDTO.getProductVariant();
+
+            ProductVariant productVariant = productVariantRepo.findById(productVariantDTO.getProductVariantId())
+                    .orElseThrow(() -> new RuntimeException("ProductVariant not found"));
+
+            int updatedQuantity = productVariant.getQuantity() - orderProductDTO.getQuantity();
+            if (updatedQuantity < 0) {
+                throw new RuntimeException(
+                        "Not enough stock for productVariantId: " + productVariantDTO.getProductVariantId());
+            }
+
+            productVariant.setQuantity(updatedQuantity);
+
+            productVariantRepo.save(productVariant);
+        }
 
         return modelMapper.map(savedOrder, OrderDTO.class);
     }
@@ -62,8 +85,7 @@ public class OrderService {
         simpleOrderDTO.setOrderProducts(
                 order.getOrderProducts().stream()
                         .map(this::convertToSimpleOrderProductDTO)
-                        .toList()
-        );
+                        .toList());
         return simpleOrderDTO;
     }
 
