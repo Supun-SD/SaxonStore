@@ -42,26 +42,24 @@ function AddProduct() {
         const sizesResponse = await getAllSizes(token, {
           signal: controller.signal,
         });
-        setColors(colorsResponse.data.data);
-        setSizes(sizesResponse.data.data);
-        setSelectedColor(colorsResponse.data.data[0]);
+  
+        setColors(colorsResponse.data.data || []);
+        setSizes(sizesResponse.data.data || []);
+        setSelectedColor(colorsResponse.data.data?.[0] || null);
       } catch (error) {
-        if (error.name !== "AbortError") {
-          console.error("Error getting colors and sizes:", error);
-          toast({
-            description: "There was a problem getting colors and sizes",
-            className: "border border-red-500 rounded-lg p-4",
-          });
-        }
+        console.error("Error fetching colors and sizes:", error);
+        setColors([]);
+        setSizes([]);
       } finally {
         setIsColorsLoading(false);
       }
-
+  
       return () => controller.abort();
     };
-
+  
     fetchColorsAndSizes();
   }, [token]);
+  
 
   const onAddColorClick = () => {
     if (
@@ -227,7 +225,7 @@ function AddProduct() {
                 <div className="col-span-4">
                   <SelectInput
                     title="Colors"
-                    options={colors.map((color) => ({
+                    options={(colors || []).map((color) => ({
                       value: color.colorId,
                       name: color.name,
                     }))}
