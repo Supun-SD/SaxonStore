@@ -3,7 +3,7 @@ import CategoriesDropDown from "../components/CategoriesDropDown";
 import MyProduct from "../components/MyProduct";
 import { useNavigate } from "react-router-dom";
 import { getAllProducts } from "../services/productService";
-import { toast } from "../hooks/use-toast";
+import { showToast } from "../lib/toast";
 import LoadingSekeleton from "../components/LoadingSekeleton";
 
 function ProductManagement() {
@@ -26,9 +26,9 @@ function ProductManagement() {
         }
       } catch (error) {
         console.error("Error getting products:", error);
-        toast({
+        showToast({
+          type: "error",
           description: "There was a problem getting products",
-          className: "border border-red-500 rounded-lg p-4",
         });
       } finally {
         setIsLoading(false);

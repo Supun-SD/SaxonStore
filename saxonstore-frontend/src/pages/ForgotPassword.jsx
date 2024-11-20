@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/form";
 import { useState } from "react";
 import { forgotPassword } from "../services/userService";
-import { toast } from "../hooks/use-toast";
+import { showToast } from "../lib/toast";
 import { SyncLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
 
@@ -41,21 +41,21 @@ function ForgotPassword() {
       const { httpCode, message } = response.data;
 
       if (httpCode === 200) {
-        toast({
+        showToast({
+          type: "success",
           description: message,
-          className: "border rounded-lg p-4 border-green-500",
         });
       } else {
-        toast({
+        showToast({
+          type: "error",
           description: message || "An unexpected error occurred.",
-          className: "border rounded-lg p-4 border-red-500",
         });
       }
     } catch (error) {
       console.error(error);
-      toast({
+      showToast({
+        type: "warning",
         description: "An unexpected error occurred. Please try again.",
-        className: "border rounded-lg p-4 border-yellow-500",
       });
     } finally {
       setIsLoading(false);

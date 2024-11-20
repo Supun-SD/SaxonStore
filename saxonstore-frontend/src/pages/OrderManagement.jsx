@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 
 import { getAllOrders } from "../services/orderService";
-import { toast } from "../hooks/use-toast";
+import { showToast } from "../lib/toast";
 import SyncLoader from "react-spinners/SyncLoader";
 import PopUpModel from "../components/PopUpModel";
 import OrderDetails from "../components/OrderDetails";
@@ -30,9 +30,9 @@ function OrderManagement() {
         }
       } catch (error) {
         console.error("Error getting orders:", error);
-        toast({
+        showToast({
+          type: "error",
           description: "There was a problem getting orders",
-          className: "border border-red-500 rounded-lg p-4",
         });
       } finally {
         setIsLoading(false);

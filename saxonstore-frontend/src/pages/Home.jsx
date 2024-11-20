@@ -4,6 +4,7 @@ import SlideShow from "../components/SlideShow";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getNewArrivals } from "../services/productService";
 import ProductCard from "../components/ProductCard";
+import { showToast } from "../lib/toast";
 
 function Home() {
   const [isLoading, setIsLoading] = useState(true);
@@ -31,6 +32,10 @@ function Home() {
         }
       } catch (error) {
         console.error("Error getting products:", error);
+        showToast({
+          type: "error",
+          description: "There was an issue getting products",
+        });
       } finally {
         setIsLoading(false);
       }

@@ -16,7 +16,7 @@ import { useDispatch } from "react-redux";
 import { login as loginAction } from "../features/userSlice";
 import { SyncLoader } from "react-spinners";
 import { jwtDecode } from "jwt-decode";
-import { toast } from "../hooks/use-toast";
+import { showToast } from "../lib/toast";
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -45,18 +45,20 @@ function LogIn() {
         dispatch(loginAction({ user: decodedToken, token }));
         navigate("/");
       } else {
-        toast({
-          description: message || "An unexpected error occurred.",
-          className: `border rounded-lg p-4 ${
-            httpCode === 401 ? "border-red-500" : "border-yellow-500"
-          }`,
-        });
+        if (httpCode === 401) {
+          showToast({ type: "error", description: message });
+        } else {
+          showToast({
+            type: "warning",
+            description: "An unexpected error occurred.",
+          });
+        }
       }
     } catch (error) {
       console.log(error);
-      toast({
+      showToast({
+        type: "warning",
         description: "An unexpected error occurred. Please try again.",
-        className: "border rounded-lg p-4 border-yellow-500",
       });
     } finally {
       setIsLoading(false);

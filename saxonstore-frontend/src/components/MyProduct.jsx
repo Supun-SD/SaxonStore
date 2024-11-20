@@ -4,7 +4,7 @@ import PopUpModel from "./PopUpModel";
 import UpdateProduct from "./UpdateProduct";
 import ViewProduct from "./ViewProduct";
 import sampleImage from "../assets/sample.jpg";
-import { toast } from "../hooks/use-toast";
+import { showToast } from "../lib/toast";
 import { useState } from "react";
 import { updateProduct } from "../services/productService";
 
@@ -15,18 +15,16 @@ function MyProduct({ product }) {
       await updateProduct(product.productId, {
         isListed: isListed,
       });
-      toast({
+      showToast({
+        type: "success",
         description: `Product ${isListed ? "unlisted" : "listed"} successfully`,
-        className: "border border-green-500 rounded-lg p-4",
       });
-
       setIsListed(isListed);
     } catch (error) {
-      toast({
+      showToast({
+        type: "error",
         description: `There was an error ${isListed ? "unlisting" : "listing"} the product`,
-        className: "border border-red-500 rounded-lg p-4",
       });
-
       console.error("Error making PUT request:", error);
     }
   };

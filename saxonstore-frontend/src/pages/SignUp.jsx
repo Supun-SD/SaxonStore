@@ -10,7 +10,7 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
-import { toast } from "../hooks/use-toast";
+import { showToast } from "../lib/toast";
 import { SyncLoader } from "react-spinners";
 import { register as registerAction } from "../services/userService";
 import { useState } from "react";
@@ -67,22 +67,22 @@ function SignUp() {
       const { httpCode, message } = response.data;
 
       if (httpCode === 200) {
-        toast({
+        showToast({
+          type: "success",
           description: message || "User registered successfully.",
-          className: "border rounded-lg p-4 border-green-500",
         });
         navigate("/sign-in");
       } else {
-        toast({
+        showToast({
+          type: "error",
           description: message || "An unexpected error occurred.",
-          className: "border rounded-lg p-4 border-red-500",
         });
       }
     } catch (error) {
       console.error(error);
-      toast({
+      showToast({
+        type: "warning",
         description: "An unexpected error occurred. Please try again.",
-        className: "border rounded-lg p-4 border-yellow-500",
       });
     } finally {
       setIsLoading(false);
