@@ -41,6 +41,12 @@ function ProductDetails() {
       );
   }, [product.productVariants]);
 
+  useMemo(() => {
+    if (colors.length > 0 && !selectedColor) {
+      setSelectedColor(colors[0]);
+    }
+  }, [colors, selectedColor]);
+
   const availableSizes = useMemo(() => {
     if (!selectedColor) return [];
     return product.productVariants
