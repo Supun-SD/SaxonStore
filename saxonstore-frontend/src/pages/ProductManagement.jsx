@@ -42,7 +42,7 @@ function ProductManagement() {
     const filteredProducts = products.filter(
       (product) =>
         product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        product.id.toString().includes(searchQuery),
+        product.productId.toString().includes(searchQuery),
     );
 
     setFilteredProducts(filteredProducts);

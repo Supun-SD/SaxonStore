@@ -10,11 +10,6 @@ import { useDispatch } from "react-redux";
 import { addProduct } from "../features/cartSlice";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import sampleImage from "../assets/sample.jpg";
-import tshirt1 from "../assets/tshirt1.jpg";
-import tshirt2 from "../assets/tshirt2.jpg";
-import tshirt3 from "../assets/tshirt3.jpg";
-import tshirt4 from "../assets/tshirt4.jpg";
 import ImageSelector from "../components/ImageSelector";
 import ColorSelector from "../components/ColorSelector";
 import SizeSelector from "../components/SizeSelector";
@@ -26,11 +21,13 @@ function ProductDetails() {
 
   const { product } = location.state;
 
+  const primaryImage = product.productImages.find(
+    (image) => image.isPrimary,
+  ).imageUrl;
+
   const [selectedColor, setSelectedColor] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null);
   const [quantity, setQuantity] = useState(1);
-
-  const images = [tshirt1, tshirt2, tshirt3, tshirt4];
 
   const colors = useMemo(() => {
     return product.productVariants
@@ -81,7 +78,7 @@ function ProductDetails() {
         productName: product.name,
         price: product.price,
         quantity,
-        imgURL: sampleImage,
+        imgURL: primaryImage,
       };
 
       dispatch(addProduct(cartProduct));
@@ -93,7 +90,7 @@ function ProductDetails() {
     <div className="mx-6 mb-20 mt-36 w-full max-w-5xl flex-col md:mx-10 lg:mx-auto">
       <div className="mt-8 grid grid-cols-1 gap-12 md:grid-cols-2">
         <div>
-          <ImageSelector images={images} />
+          <ImageSelector images={product.productImages} />
         </div>
 
         <div>

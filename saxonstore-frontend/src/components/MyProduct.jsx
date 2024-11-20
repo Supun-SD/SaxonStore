@@ -3,13 +3,16 @@ import ConfirmationDialog from "./ConfirmationDialog";
 import PopUpModel from "./PopUpModel";
 import UpdateProduct from "./UpdateProduct";
 import ViewProduct from "./ViewProduct";
-import sampleImage from "../assets/sample.jpg";
 import { showToast } from "../lib/toast";
 import { useState } from "react";
 import { updateProduct } from "../services/productService";
 
 function MyProduct({ product }) {
   const [isListed, setIsListed] = useState(product.isListed);
+  const primaryImage = product.productImages.find(
+    (image) => image.isPrimary,
+  ).imageUrl;
+
   const updateListing = async (isListed) => {
     try {
       await updateProduct(product.productId, {
@@ -35,7 +38,7 @@ function MyProduct({ product }) {
     >
       <div className="mb-3 h-40 w-full overflow-hidden">
         <img
-          src={sampleImage}
+          src={primaryImage}
           alt="product image"
           className="h-full w-full object-cover"
         />

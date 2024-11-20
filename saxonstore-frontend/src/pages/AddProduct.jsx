@@ -11,6 +11,9 @@ import { useNavigate } from "react-router-dom";
 import SelectInput from "../components/SelectInput";
 import { showToast } from "../lib/toast";
 
+import CloudinaryUploadWidget from "../components/CloudinaryUploadWidget";
+import { Cloudinary } from "@cloudinary/url-gen";
+
 function AddProduct() {
   const [isColorsLoading, setIsColorsLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -30,6 +33,27 @@ function AddProduct() {
   const [availableSizes, setAvailableSizes] = useState([]);
   const [description, setDescription] = useState(null);
   const [productVariants, setProductVariants] = useState([]);
+
+  const cloudName = "dw6wtjqgd";
+  const uploadPreset = "my_preset";
+
+  const [uploadedImages, setUploadedImages] = useState([]);
+  const [uwConfig] = useState({
+    cloudName,
+    uploadPreset,
+    folder: "saxonstore",
+  });
+
+  const cld = new Cloudinary({
+    cloud: {
+      cloudName,
+    },
+  });
+
+  const handleImageUpload = (publicId) => {
+    const image = cld.image(publicId).toURL();
+    setUploadedImages((prevImages) => [...prevImages, image]);
+  };
 
   useEffect(() => {
     const fetchColorsAndSizes = async () => {
@@ -56,13 +80,13 @@ function AddProduct() {
       } finally {
         setIsColorsLoading(false);
       }
-  
+
       return () => controller.abort();
     };
-  
+
     fetchColorsAndSizes();
   }, [token]);
-  
+
   const onAddColorClick = () => {
     if (
       !availableColors.some((color) => color.colorId === selectedColor.colorId)
@@ -143,6 +167,13 @@ function AddProduct() {
       });
       return;
     }
+
+    if (uploadedImages.length === 0) {
+      showToast({
+        type: "error",
+        description: "Upload at least one image",
+      });
+    }
     setIsLoading(true);
 
     const product = {
@@ -153,12 +184,10 @@ function AddProduct() {
       subcategory,
       isListed: true,
       productVariants,
-      productImages: [
-        {
-          imageUrl: "https://sampleurl.com",
-          isPrimary: true,
-        },
-      ],
+      productImages: uploadedImages.map((url, index) => ({
+        imageUrl: url,
+        isPrimary: index === 0,
+      })),
     };
 
     try {
@@ -312,6 +341,23 @@ function AddProduct() {
             className="mt-12"
             height="100px"
           />
+          <div className="mt-8 flex gap-2">
+            {uploadedImages.map((url, index) => (
+              <div className="h-20 w-20 overflow-hidden" key={index}>
+                <img
+                  src={url}
+                  alt={`Product image ${index + 1}`}
+                  className="h-full w-full object-cover"
+                />
+              </div>
+            ))}
+          </div>
+          <div className="mt-5">
+            <CloudinaryUploadWidget
+              uwConfig={uwConfig}
+              setPublicId={handleImageUpload}
+            />
+          </div>
         </div>
         <div>
           <div>

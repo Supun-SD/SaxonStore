@@ -1,5 +1,4 @@
 import { useState } from "react";
-import sampleImage from "../assets/sample.jpg";
 import Button from "../components/Button";
 import ProgressBar from "../components/ProgressBar";
 
@@ -104,7 +103,7 @@ function OrderDetails({ order }) {
               <div className="mb-3 flex gap-4">
                 <div className="h-20 w-20 overflow-hidden">
                   <img
-                    src={sampleImage}
+                    src={product.primaryImageUrl}
                     alt="product image"
                     className="h-full w-full object-cover"
                   />
