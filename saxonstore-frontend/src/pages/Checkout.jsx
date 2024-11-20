@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
-import { useToast } from "../hooks/use-toast";
+import { showToast } from "../lib/toast";
 import { clearCart } from "../features/cartSlice";
 
 import OrderItem from "../components/OrderItem";
@@ -17,7 +17,6 @@ function Checkout() {
   const location = useLocation();
   const { firstName, lastName, address, city, postalCode, contactNo, note } =
     location.state || {};
-
   const cartItems = useSelector((state) => state.cart.cartItems);
   const cartTotal = useSelector((state) => state.cart.cartTotal);
 
@@ -30,8 +29,6 @@ function Checkout() {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const { toast } = useToast();
 
   const onCheckoutClick = async (status) => {
     setIsLoading(true);
@@ -67,16 +64,16 @@ function Checkout() {
       await placeOrder(order, token);
       dispatch(clearCart());
       navigate("/cart");
-      toast({
+      showToast({
+        type: "success",
         description: "Your order has been placed successfully",
-        className: "border border-green-500 rounded-lg p-4",
       });
     } catch (error) {
       console.error("Error placing order:", error);
-      toast({
+      showToast({
+        type: "error",
         description:
           "An error occurred while placing your order. Please try again.",
-        className: "border border-red-500 rounded-lg p-4",
       });
     } finally {
       setIsLoading(false);

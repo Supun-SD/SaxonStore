@@ -16,7 +16,7 @@ import { useDispatch } from "react-redux";
 import { login as loginAction } from "../features/userSlice";
 import { SyncLoader } from "react-spinners";
 import { jwtDecode } from "jwt-decode";
-import { toast } from "../hooks/use-toast";
+import { showToast } from "../lib/toast";
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -37,22 +37,28 @@ function LogIn() {
     setIsLoading(true);
     try {
       const response = await login(data);
-      const token = response.data;
-      const decodedToken = jwtDecode(token);
+      const { httpCode, message, data: token } = response.data;
 
-      dispatch(loginAction({ user: decodedToken, token }));
-      navigate("/");
+      if (httpCode === 200) {
+        const decodedToken = jwtDecode(token);
+
+        dispatch(loginAction({ user: decodedToken, token }));
+        navigate("/");
+      } else {
+        if (httpCode === 401) {
+          showToast({ type: "error", description: message });
+        } else {
+          showToast({
+            type: "warning",
+            description: "An unexpected error occurred.",
+          });
+        }
+      }
     } catch (error) {
-      const statusCode = error.response?.status;
-
-      toast({
-        description:
-          statusCode === 401
-            ? "Invalid email or password"
-            : "An unexpected error occurred. Please try again.",
-        className: `border rounded-lg p-4 ${
-          statusCode === 401 ? "border-red-500" : "border-yellow-500"
-        }`,
+      console.log(error);
+      showToast({
+        type: "warning",
+        description: "An unexpected error occurred. Please try again.",
       });
     } finally {
       setIsLoading(false);
@@ -72,7 +78,7 @@ function LogIn() {
               render={() => (
                 <FormItem>
                   <FormLabel>Email</FormLabel>
-                  <FormControl asChild>
+                  <FormControl>
                     <input
                       type="email"
                       placeholder="Enter your email"
@@ -91,7 +97,7 @@ function LogIn() {
               render={() => (
                 <FormItem>
                   <FormLabel>Password</FormLabel>
-                  <FormControl asChild>
+                  <FormControl>
                     <input
                       type="password"
                       placeholder="Enter your password"
@@ -104,13 +110,11 @@ function LogIn() {
               )}
             />
 
-            <div className="text-right">
-              <a
-                href="/Forgot-Password"
-                className="text-sm text-black hover:underline"
-              >
-                Forgot your password?
-              </a>
+            <div
+              className="cursor-pointer text-right text-sm text-black hover:underline"
+              onClick={() => navigate("/forgot-password")}
+            >
+              Forgot your password?
             </div>
 
             {isLoading ? (
@@ -129,12 +133,12 @@ function LogIn() {
             <div className="mt-4 text-center">
               <span className="text-sm text-gray-600">
                 Don&apos;t have an account?{" "}
-                <a
-                  href="/Sign-Up"
-                  className="font-bold text-black hover:underline"
+                <span
+                  className="cursor-pointer font-bold text-black hover:underline"
+                  onClick={() => navigate("/sign-up")}
                 >
                   Register here
-                </a>
+                </span>
               </span>
             </div>
           </form>

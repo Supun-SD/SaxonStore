@@ -4,7 +4,7 @@ import Button from "../components/Button";
 import ProgressBar from "../components/ProgressBar";
 
 import { updateOrder } from "../services/orderService";
-import { toast } from "../hooks/use-toast";
+import { showToast } from "../lib/toast";
 import { useSelector } from "react-redux";
 
 function OrderDetails({ order }) {
@@ -24,18 +24,16 @@ function OrderDetails({ order }) {
         },
         token,
       );
-      toast({
+      showToast({
+        type: "success",
         description: `Order status updated to ${status} successfully`,
-        className: "border border-green-500 rounded-lg p-4",
       });
-
       setOrderStatus(status);
     } catch (error) {
-      toast({
+      showToast({
+        type: "error",
         description: "There was a problem updating the status",
-        className: "border border-red-500 rounded-lg p-4",
       });
-
       console.error("Error making PUT request:", error);
     } finally {
       setIsLoading(false);

@@ -12,7 +12,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { resetPassword } from "../services/userService";
 import { useState } from "react";
-import { toast } from "../hooks/use-toast";
+import { showToast } from "../lib/toast";
 import { SyncLoader } from "react-spinners";
 
 const resetPasswordSchema = z
@@ -43,12 +43,16 @@ function ResetPassword() {
     setIsLoading(true);
     try {
       await resetPassword(data);
+      showToast({
+        type: "success",
+        description: "Your password has been resetted successfully",
+      });
       navigate("/log-in");
     } catch (error) {
       console.log(error);
-      toast({
+      showToast({
+        type: "error",
         description: "An unexpected error occurred. Please try again.",
-        className: "border rounded-lg p-4 border-red-500",
       });
     } finally {
       setIsLoading(false);
