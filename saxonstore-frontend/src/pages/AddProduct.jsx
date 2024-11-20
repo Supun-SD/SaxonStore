@@ -42,9 +42,9 @@ function AddProduct() {
         const sizesResponse = await getAllSizes(token, {
           signal: controller.signal,
         });
-        setColors(colorsResponse.data.data);
-        setSizes(sizesResponse.data.data);
-        setSelectedColor(colorsResponse.data.data[0]);
+        setColors(colorsResponse.data.data || []);
+        setSizes(sizesResponse.data.data || []);
+        setSelectedColor(colorsResponse.data.data?.[0] || null);
       } catch (error) {
         if (error.name !== "AbortError") {
           console.error("Error getting colors and sizes:", error);
@@ -56,13 +56,13 @@ function AddProduct() {
       } finally {
         setIsColorsLoading(false);
       }
-
+  
       return () => controller.abort();
     };
-
+  
     fetchColorsAndSizes();
   }, [token]);
-
+  
   const onAddColorClick = () => {
     if (
       !availableColors.some((color) => color.colorId === selectedColor.colorId)
@@ -227,7 +227,7 @@ function AddProduct() {
                 <div className="col-span-4">
                   <SelectInput
                     title="Colors"
-                    options={colors.map((color) => ({
+                    options={(colors || []).map((color) => ({
                       value: color.colorId,
                       name: color.name,
                     }))}
