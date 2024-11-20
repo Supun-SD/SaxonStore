@@ -38,27 +38,30 @@ function ForgotPassword() {
     setIsLoading(true);
     try {
       const response = await forgotPassword(data.email);
-      if (response.data.httpCode === 500) {
+      const { httpCode, message } = response.data;
+
+      if (httpCode === 200) {
         toast({
-          description: response.data.message,
-          className: "border rounded-lg p-4 border-red-500",
+          description: message,
+          className: "border rounded-lg p-4 border-green-500",
         });
       } else {
         toast({
-          description: response.data,
-          className: "border rounded-lg p-4 border-green-500",
+          description: message || "An unexpected error occurred.",
+          className: "border rounded-lg p-4 border-red-500",
         });
       }
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      console.error(error);
       toast({
         description: "An unexpected error occurred. Please try again.",
-        className: "border rounded-lg p-4",
+        className: "border rounded-lg p-4 border-yellow-500",
       });
     } finally {
       setIsLoading(false);
     }
   };
+
   return (
     <div className="flex min-h-[85vh] items-center justify-center p-4">
       <div className="w-full max-w-md rounded-2xl border-2 border-gray-300 bg-white p-8 shadow-md">

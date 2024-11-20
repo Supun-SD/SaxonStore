@@ -54,7 +54,7 @@ function SignUp() {
   const onSubmit = async (data) => {
     setIsLoading(true);
     try {
-      await registerAction({
+      const response = await registerAction({
         email: data.email,
         password: data.password,
         firstName: data.firstName,
@@ -63,18 +63,26 @@ function SignUp() {
         phone: data.phone,
         username: `${data.firstName}${data.lastName.charAt(0)}`,
       });
-      navigate("/sign-in");
-    } catch (error) {
-      const statusCode = error.response?.status;
 
+      const { httpCode, message } = response.data;
+
+      if (httpCode === 200) {
+        toast({
+          description: message || "User registered successfully.",
+          className: "border rounded-lg p-4 border-green-500",
+        });
+        navigate("/sign-in");
+      } else {
+        toast({
+          description: message || "An unexpected error occurred.",
+          className: "border rounded-lg p-4 border-red-500",
+        });
+      }
+    } catch (error) {
+      console.error(error);
       toast({
-        description:
-          statusCode === 400
-            ? "User already exists"
-            : "An unexpected error occurred. Please try again.",
-        className: `border rounded-lg p-4 ${
-          statusCode === 400 ? "border-red-500" : "border-yellow-500"
-        }`,
+        description: "An unexpected error occurred. Please try again.",
+        className: "border rounded-lg p-4 border-yellow-500",
       });
     } finally {
       setIsLoading(false);

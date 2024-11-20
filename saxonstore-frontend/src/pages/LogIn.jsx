@@ -37,22 +37,26 @@ function LogIn() {
     setIsLoading(true);
     try {
       const response = await login(data);
-      const token = response.data;
-      const decodedToken = jwtDecode(token);
+      const { httpCode, message, data: token } = response.data;
 
-      dispatch(loginAction({ user: decodedToken, token }));
-      navigate("/");
+      if (httpCode === 200) {
+        const decodedToken = jwtDecode(token);
+
+        dispatch(loginAction({ user: decodedToken, token }));
+        navigate("/");
+      } else {
+        toast({
+          description: message || "An unexpected error occurred.",
+          className: `border rounded-lg p-4 ${
+            httpCode === 401 ? "border-red-500" : "border-yellow-500"
+          }`,
+        });
+      }
     } catch (error) {
-      const statusCode = error.response?.status;
-
+      console.log(error);
       toast({
-        description:
-          statusCode === 401
-            ? "Invalid email or password"
-            : "An unexpected error occurred. Please try again.",
-        className: `border rounded-lg p-4 ${
-          statusCode === 401 ? "border-red-500" : "border-yellow-500"
-        }`,
+        description: "An unexpected error occurred. Please try again.",
+        className: "border rounded-lg p-4 border-yellow-500",
       });
     } finally {
       setIsLoading(false);
