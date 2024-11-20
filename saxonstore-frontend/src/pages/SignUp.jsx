@@ -235,12 +235,12 @@ function SignUp() {
             <div className="mt-4 text-center">
               <span className="text-sm text-gray-600">
                 Already have an account?{" "}
-                <a
-                  href="/sign-in"
-                  className="font-bold text-black hover:underline"
+                <span
+                  onClick={() => navigate("/sign-in")}
+                  className="cursor-pointer font-bold text-black hover:underline"
                 >
                   Log in here
-                </a>
+                </span>
               </span>
             </div>
           </form>

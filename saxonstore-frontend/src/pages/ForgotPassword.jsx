@@ -13,6 +13,7 @@ import { useState } from "react";
 import { forgotPassword } from "../services/userService";
 import { toast } from "../hooks/use-toast";
 import { SyncLoader } from "react-spinners";
+import { useNavigate } from "react-router-dom";
 
 const forgotPasswordSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
@@ -31,6 +32,8 @@ function ForgotPassword() {
   });
 
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+
   const onSubmit = async (data) => {
     setIsLoading(true);
     try {
@@ -102,12 +105,12 @@ function ForgotPassword() {
             <div className="mt-4 text-center">
               <span className="text-sm text-gray-600">
                 Remember your password?{" "}
-                <a
-                  href="/sign-in"
-                  className="font-bold text-black hover:underline"
+                <span
+                  onClick={() => navigate("/sign-in")}
+                  className="cursor-pointer font-bold text-black hover:underline"
                 >
                   Log In here
-                </a>
+                </span>
               </span>
             </div>
           </form>

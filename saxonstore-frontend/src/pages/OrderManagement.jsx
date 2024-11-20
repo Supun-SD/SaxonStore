@@ -111,9 +111,10 @@ function OrdersTable({ orders }) {
               <td className="whitespace-nowrap px-8 py-5 text-center text-xl">
                 <PopUpModel
                   button={
-                    <button className="text-gray-500 hover:text-gray-900">
-                      <FontAwesomeIcon icon={faEye} className="h-8 w-8" />
-                    </button>
+                    <FontAwesomeIcon
+                      icon={faEye}
+                      className="h-8 w-8 text-gray-500 hover:text-gray-900"
+                    />
                   }
                 >
                   <OrderDetails order={order} />

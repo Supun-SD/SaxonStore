@@ -47,18 +47,18 @@ function MyProduct({ product }) {
       <div className="mt-4 flex flex-col space-y-2 md:flex-row md:justify-between md:space-x-2 md:space-y-0">
         <PopUpModel
           button={
-            <button className="w-full border border-black px-8 py-2 text-black transition duration-300 hover:bg-black hover:text-white">
+            <div className="w-full border border-black px-8 py-2 text-black transition duration-300 hover:bg-black hover:text-white">
               UPDATE
-            </button>
+            </div>
           }
         >
           <UpdateProduct product={product} />
         </PopUpModel>
         <PopUpModel
           button={
-            <button className="rounded-none border border-gray-400 px-4 py-2.5 text-black">
+            <div className="rounded-none border border-gray-400 px-4 py-2.5 text-black">
               <Eye size={20} />
-            </button>
+            </div>
           }
         >
           <ViewProduct product={product} />

@@ -72,7 +72,7 @@ function LogIn() {
               render={() => (
                 <FormItem>
                   <FormLabel>Email</FormLabel>
-                  <FormControl asChild>
+                  <FormControl>
                     <input
                       type="email"
                       placeholder="Enter your email"
@@ -91,7 +91,7 @@ function LogIn() {
               render={() => (
                 <FormItem>
                   <FormLabel>Password</FormLabel>
-                  <FormControl asChild>
+                  <FormControl>
                     <input
                       type="password"
                       placeholder="Enter your password"
@@ -104,13 +104,11 @@ function LogIn() {
               )}
             />
 
-            <div className="text-right">
-              <a
-                href="/Forgot-Password"
-                className="text-sm text-black hover:underline"
-              >
-                Forgot your password?
-              </a>
+            <div
+              className="cursor-pointer text-right text-sm text-black hover:underline"
+              onClick={() => navigate("/forgot-password")}
+            >
+              Forgot your password?
             </div>
 
             {isLoading ? (
@@ -129,12 +127,12 @@ function LogIn() {
             <div className="mt-4 text-center">
               <span className="text-sm text-gray-600">
                 Don&apos;t have an account?{" "}
-                <a
-                  href="/Sign-Up"
-                  className="font-bold text-black hover:underline"
+                <span
+                  className="cursor-pointer font-bold text-black hover:underline"
+                  onClick={() => navigate("/sign-up")}
                 >
                   Register here
-                </a>
+                </span>
               </span>
             </div>
           </form>
