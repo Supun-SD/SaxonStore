@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/table";
 import { useSelector } from "react-redux";
 import { getAllCustomerOrders } from "../services/orderService";
-import { toast } from "../hooks/use-toast";
+import { showToast } from "../lib/toast";
 import PopUpModel from "../components/PopUpModel";
 import OrderDetails from "../components/OrderDetails";
 import { SyncLoader } from "react-spinners";
@@ -39,9 +39,9 @@ function MyAccount() {
         }
       } catch (error) {
         console.error("Error getting your orders:", error);
-        toast({
+        showToast({
+          type: "error",
           description: "There was a problem getting your orders.",
-          className: "border border-red-500 rounded-lg p-4",
         });
       } finally {
         setIsLoading(false);

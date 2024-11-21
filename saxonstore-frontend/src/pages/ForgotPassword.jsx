@@ -11,8 +11,9 @@ import {
 } from "@/components/ui/form";
 import { useState } from "react";
 import { forgotPassword } from "../services/userService";
-import { toast } from "../hooks/use-toast";
+import { showToast } from "../lib/toast";
 import { SyncLoader } from "react-spinners";
+import { useNavigate } from "react-router-dom";
 
 const forgotPasswordSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
@@ -31,31 +32,36 @@ function ForgotPassword() {
   });
 
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+
   const onSubmit = async (data) => {
     setIsLoading(true);
     try {
       const response = await forgotPassword(data.email);
-      if (response.data.httpCode === 500) {
-        toast({
-          description: response.data.message,
-          className: "border rounded-lg p-4 border-red-500",
+      const { httpCode, message } = response.data;
+
+      if (httpCode === 200) {
+        showToast({
+          type: "success",
+          description: message,
         });
       } else {
-        toast({
-          description: response.data,
-          className: "border rounded-lg p-4 border-green-500",
+        showToast({
+          type: "error",
+          description: message || "An unexpected error occurred.",
         });
       }
-    } catch (e) {
-      console.log(e);
-      toast({
+    } catch (error) {
+      console.error(error);
+      showToast({
+        type: "warning",
         description: "An unexpected error occurred. Please try again.",
-        className: "border rounded-lg p-4",
       });
     } finally {
       setIsLoading(false);
     }
   };
+
   return (
     <div className="flex min-h-[85vh] items-center justify-center p-4">
       <div className="w-full max-w-md rounded-2xl border-2 border-gray-300 bg-white p-8 shadow-md">
@@ -102,12 +108,12 @@ function ForgotPassword() {
             <div className="mt-4 text-center">
               <span className="text-sm text-gray-600">
                 Remember your password?{" "}
-                <a
-                  href="/sign-in"
-                  className="font-bold text-black hover:underline"
+                <span
+                  onClick={() => navigate("/sign-in")}
+                  className="cursor-pointer font-bold text-black hover:underline"
                 >
                   Log In here
-                </a>
+                </span>
               </span>
             </div>
           </form>

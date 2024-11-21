@@ -2,7 +2,7 @@ import { useState } from "react";
 import InputComponent from "./InputComponent";
 import Button from "./Button";
 import { updateProduct } from "../services/productService";
-import { toast } from "../hooks/use-toast";
+import { showToast } from "../lib/toast";
 import { SyncLoader } from "react-spinners";
 
 function UpdateProduct({ product }) {
@@ -57,15 +57,14 @@ function UpdateProduct({ product }) {
       };
 
       await updateProduct(product.productId, payload);
-
-      toast({
-        description: `Product updated successfully`,
-        className: "border border-green-500 rounded-lg p-4",
+      showToast({
+        type: "success",
+        description: "Product updated successfully",
       });
     } catch (error) {
-      toast({
-        description: `There was an error updating the product`,
-        className: "border border-red-500 rounded-lg p-4",
+      showToast({
+        type: "error",
+        description: "There was an error updating the product",
       });
       console.error("Error making PUT request:", error);
     } finally {

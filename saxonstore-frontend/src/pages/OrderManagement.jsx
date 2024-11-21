@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 
 import { getAllOrders } from "../services/orderService";
-import { toast } from "../hooks/use-toast";
+import { showToast } from "../lib/toast";
 import SyncLoader from "react-spinners/SyncLoader";
 import PopUpModel from "../components/PopUpModel";
 import OrderDetails from "../components/OrderDetails";
@@ -30,9 +30,9 @@ function OrderManagement() {
         }
       } catch (error) {
         console.error("Error getting orders:", error);
-        toast({
+        showToast({
+          type: "error",
           description: "There was a problem getting orders",
-          className: "border border-red-500 rounded-lg p-4",
         });
       } finally {
         setIsLoading(false);
@@ -111,9 +111,10 @@ function OrdersTable({ orders }) {
               <td className="whitespace-nowrap px-8 py-5 text-center text-xl">
                 <PopUpModel
                   button={
-                    <button className="text-gray-500 hover:text-gray-900">
-                      <FontAwesomeIcon icon={faEye} className="h-8 w-8" />
-                    </button>
+                    <FontAwesomeIcon
+                      icon={faEye}
+                      className="h-8 w-8 text-gray-500 hover:text-gray-900"
+                    />
                   }
                 >
                   <OrderDetails order={order} />

@@ -12,7 +12,7 @@ import { SyncLoader } from "react-spinners";
 import { useDispatch } from "react-redux";
 import { update } from "../services/userService";
 import { updateUser as updateAction } from "../features/userSlice";
-import { toast } from "../hooks/use-toast";
+import { showToast } from "../lib/toast";
 import { useState } from "react";
 
 function UpdateInfo() {
@@ -38,22 +38,24 @@ function UpdateInfo() {
     try {
       await update(data, user.userId, token);
       dispatch(updateAction(data));
-      toast({
+      showToast({
+        type: "success",
         description: "User info updated successfully",
-        className: "border-green-500",
       });
     } catch (error) {
       const statusCode = error.response?.status;
 
-      toast({
-        description:
-          statusCode === 400
-            ? "User doesn't exists"
-            : "An unexpected error occurred. Please try again.",
-        className: `border rounded-lg p-4 ${
-          statusCode === 400 ? "border-red-500" : "border-yellow-500"
-        }`,
-      });
+      if (statusCode === 400) {
+        showToast({
+          type: "error",
+          description: "User doesn't exists",
+        });
+      } else {
+        showToast({
+          type: "error",
+          description: "An unexpected error occurred. Please try again.",
+        });
+      }
     } finally {
       setIsLoading(false);
     }

@@ -10,7 +10,7 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
-import { toast } from "../hooks/use-toast";
+import { showToast } from "../lib/toast";
 import { SyncLoader } from "react-spinners";
 import { register as registerAction } from "../services/userService";
 import { useState } from "react";
@@ -54,7 +54,7 @@ function SignUp() {
   const onSubmit = async (data) => {
     setIsLoading(true);
     try {
-      await registerAction({
+      const response = await registerAction({
         email: data.email,
         password: data.password,
         firstName: data.firstName,
@@ -63,18 +63,26 @@ function SignUp() {
         phone: data.phone,
         username: `${data.firstName}${data.lastName.charAt(0)}`,
       });
-      navigate("/sign-in");
-    } catch (error) {
-      const statusCode = error.response?.status;
 
-      toast({
-        description:
-          statusCode === 400
-            ? "User already exists"
-            : "An unexpected error occurred. Please try again.",
-        className: `border rounded-lg p-4 ${
-          statusCode === 400 ? "border-red-500" : "border-yellow-500"
-        }`,
+      const { httpCode, message } = response.data;
+
+      if (httpCode === 200) {
+        showToast({
+          type: "success",
+          description: message || "User registered successfully.",
+        });
+        navigate("/sign-in");
+      } else {
+        showToast({
+          type: "error",
+          description: message || "An unexpected error occurred.",
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      showToast({
+        type: "warning",
+        description: "An unexpected error occurred. Please try again.",
       });
     } finally {
       setIsLoading(false);
@@ -235,12 +243,12 @@ function SignUp() {
             <div className="mt-4 text-center">
               <span className="text-sm text-gray-600">
                 Already have an account?{" "}
-                <a
-                  href="/sign-in"
-                  className="font-bold text-black hover:underline"
+                <span
+                  onClick={() => navigate("/sign-in")}
+                  className="cursor-pointer font-bold text-black hover:underline"
                 >
                   Log in here
-                </a>
+                </span>
               </span>
             </div>
           </form>

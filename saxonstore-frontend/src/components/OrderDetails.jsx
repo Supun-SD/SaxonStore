@@ -1,10 +1,9 @@
 import { useState } from "react";
-import sampleImage from "../assets/sample.jpg";
 import Button from "../components/Button";
 import ProgressBar from "../components/ProgressBar";
 
 import { updateOrder } from "../services/orderService";
-import { toast } from "../hooks/use-toast";
+import { showToast } from "../lib/toast";
 import { useSelector } from "react-redux";
 
 function OrderDetails({ order }) {
@@ -24,18 +23,16 @@ function OrderDetails({ order }) {
         },
         token,
       );
-      toast({
+      showToast({
+        type: "success",
         description: `Order status updated to ${status} successfully`,
-        className: "border border-green-500 rounded-lg p-4",
       });
-
       setOrderStatus(status);
     } catch (error) {
-      toast({
+      showToast({
+        type: "error",
         description: "There was a problem updating the status",
-        className: "border border-red-500 rounded-lg p-4",
       });
-
       console.error("Error making PUT request:", error);
     } finally {
       setIsLoading(false);
@@ -106,7 +103,7 @@ function OrderDetails({ order }) {
               <div className="mb-3 flex gap-4">
                 <div className="h-20 w-20 overflow-hidden">
                   <img
-                    src={sampleImage}
+                    src={product.primaryImageUrl}
                     alt="product image"
                     className="h-full w-full object-cover"
                   />

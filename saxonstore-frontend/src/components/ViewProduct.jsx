@@ -1,9 +1,4 @@
-import image1 from "../assets/tshirt1.jpg";
-import image2 from "../assets/tshirt2.jpg";
-import image3 from "../assets/tshirt3.jpg";
-
 function ViewProduct({ product }) {
-  const images = [image1, image2, image3];
   const colors = [...new Set(product.productVariants.map((v) => v.color.name))];
 
   const sizes = ["XS", "S", "M", "L", "XL", "XXL"];
@@ -14,7 +9,7 @@ function ViewProduct({ product }) {
       const variant = product.productVariants.find(
         (v) => v.color.name === color && v.size.name === size,
       );
-      row[size] = variant ? variant.quantity : 0; 
+      row[size] = variant ? variant.quantity : 0;
     });
     return { color, ...row };
   });
@@ -24,7 +19,7 @@ function ViewProduct({ product }) {
       <div className="font-serif text-2xl">{product.name}</div>
       <div className="mt-2 text-xl">LKR {product.price.toFixed(2)}</div>
       <div className="my-4 flex gap-2">
-        {images.map((image, index) => (
+        {product.productImages.map((image, index) => (
           <div className="h-24 w-24 overflow-hidden" key={index}>
             <img
               src={image}

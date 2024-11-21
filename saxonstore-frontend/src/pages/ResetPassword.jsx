@@ -12,7 +12,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { resetPassword } from "../services/userService";
 import { useState } from "react";
-import { toast } from "../hooks/use-toast";
+import { showToast } from "../lib/toast";
 import { SyncLoader } from "react-spinners";
 
 const resetPasswordSchema = z
@@ -39,16 +39,28 @@ function ResetPassword() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
+  const queryParams = new URLSearchParams(location.search);
+  const token = queryParams.get("token");
+
   const onSubmit = async (data) => {
     setIsLoading(true);
     try {
+      const reqData = {
+        token: token,
+        newPassword: data.newPassword,
+      };
+      console.log(reqData);
       await resetPassword(data);
+      showToast({
+        type: "success",
+        description: "Your password has been resetted successfully",
+      });
       navigate("/log-in");
     } catch (error) {
       console.log(error);
-      toast({
+      showToast({
+        type: "error",
         description: "An unexpected error occurred. Please try again.",
-        className: "border rounded-lg p-4 border-red-500",
       });
     } finally {
       setIsLoading(false);
