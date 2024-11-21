@@ -39,9 +39,17 @@ function ResetPassword() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
+  const queryParams = new URLSearchParams(location.search);
+  const token = queryParams.get("token");
+
   const onSubmit = async (data) => {
     setIsLoading(true);
     try {
+      const reqData = {
+        token: token,
+        newPassword: data.newPassword,
+      };
+      console.log(reqData);
       await resetPassword(data);
       showToast({
         type: "success",
