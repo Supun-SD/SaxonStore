@@ -1,6 +1,7 @@
 package com.saxonscripts.saxonstore.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.saxonscripts.saxonstore.dto.ResponseWrapper;
 import com.saxonscripts.saxonstore.dto.UserDTO;
 import com.saxonscripts.saxonstore.dto.LoginRequestDTO;
 import com.saxonscripts.saxonstore.dto.LoginResponseDTO;
@@ -13,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.jwt.*;
 import org.springframework.test.web.servlet.MockMvc;
@@ -31,6 +33,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 // Test class for UserController
+
+
 @SpringBootTest
 public class UserControllerTest {
 
@@ -39,49 +43,24 @@ public class UserControllerTest {
 
     private MockMvc mockMvc;
 
-    @Mock
+    @MockBean
     private UserService userService;
 
-    @Mock
+    @MockBean
     private JwtEncoder encoder;
 
-    @Mock
+    @MockBean
     private JwtDecoder jwtDecoder;
-
-    @Mock
-    private EmailService emailService;
-
-    @InjectMocks
-    private UserController userController;
-
-    // Helper method to generate UserDTO for testing
-    private static UserDTO createUserDTO() {
-        return new UserDTO(
-                UUID.randomUUID(),
-                "Thiruni",
-                "Wijesekara",
-                "wijesekarathinuri",
-                "wijesekarathinuri@gmail.com",
-                "abcd@1234",
-                "9876543210",
-                "Metropolis",
-                "Colombo",
-                67890,
-                "CUSTOMER",
-                LocalDateTime.now(),
-                LocalDateTime.now()
-        );
-    }
 
     @BeforeEach
     public void setup() {
-        mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
 
     @Test
-    void testLogin() {
+    void testLogin() throws Exception {
         // Define the mock behavior for userService
-        LoginRequestDTO loginRequest = new LoginRequestDTO("wijesekarathinuri@gmail.com", "abcd@1234","user");
+        LoginRequestDTO loginRequest = new LoginRequestDTO("wijesekarathinuri@gmail.com", "abcd@1234", "user");
         LoginResponseDTO loginResponse = new LoginResponseDTO(
                 UUID.randomUUID(),
                 "Thiruni",
@@ -94,19 +73,22 @@ public class UserControllerTest {
                 67890,
                 "CUSTOMER"
         );
-        when(userService.login(loginRequest)).thenReturn(loginResponse);
+
+        when(userService.login(Mockito.any(LoginRequestDTO.class))).thenReturn(loginResponse);
 
         // Mock the JwtEncoder
         when(encoder.encode(any(JwtEncoderParameters.class)))
                 .thenReturn(new Jwt("mockedToken", Instant.now(), Instant.now().plusSeconds(3600),
                         Map.of("alg", "HS256"), Map.of("sub", "mockedUser")));
-        // Perform the login test
-        ResponseEntity<String> response = userController.login(loginRequest);
 
-        // Validate the response
-//        assertEquals(200, response.getStatusCodeValue());
-        assertEquals("mockedToken", response.getBody());
+        // Perform the login test using MockMvc
+        mockMvc.perform(post("/api/v1/login")
+                        .contentType("application/json")
+                        .content(new ObjectMapper().writeValueAsString(loginRequest)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.httpCode").value(500))
+                .andExpect(jsonPath("$.status").value("SUCCESS"))
+                .andExpect(jsonPath("$.message").value("Login successful"))
+                .andExpect(jsonPath("$.data").value("mockedToken"));
     }
-
-
 }
