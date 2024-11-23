@@ -14,21 +14,12 @@ function Home() {
     const fetchProducts = async () => {
       try {
         setIsLoading(true);
-        const savedNewArrivals = sessionStorage.getItem("newArrivals");
+        const response = await getNewArrivals();
 
-        if (savedNewArrivals) {
-          setNewArrivals(JSON.parse(savedNewArrivals));
+        if (response.data.httpCode === 404) {
+          setNewArrivals([]);
         } else {
-          const response = await getNewArrivals();
-          if (response.data.httpCode === 404) {
-            setNewArrivals([]);
-          } else {
-            setNewArrivals(response.data.data);
-            sessionStorage.setItem(
-              "newArrivals",
-              JSON.stringify(response.data.data),
-            );
-          }
+          setNewArrivals(response.data.data);
         }
       } catch (error) {
         console.error("Error getting products:", error);
