@@ -37,28 +37,18 @@ function LogIn() {
     setIsLoading(true);
     try {
       const response = await login(data);
-      const { httpCode, message, data: token } = response.data;
+      const { data: token } = response.data;
 
-      if (httpCode === 200) {
-        const decodedToken = jwtDecode(token);
-
-        dispatch(loginAction({ user: decodedToken, token }));
-        navigate("/");
-      } else {
-        if (httpCode === 401) {
-          showToast({ type: "error", description: message });
-        } else {
-          showToast({
-            type: "warning",
-            description: "An unexpected error occurred.",
-          });
-        }
-      }
+      const decodedToken = jwtDecode(token);
+      dispatch(loginAction({ user: decodedToken, token }));
+      navigate("/");
     } catch (error) {
       console.log(error);
       showToast({
-        type: "warning",
-        description: "An unexpected error occurred. Please try again.",
+        type: "error",
+        description:
+          error.response?.data?.message ||
+          "An unexpected error occurred. Please try again.",
       });
     } finally {
       setIsLoading(false);
