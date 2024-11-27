@@ -13,8 +13,10 @@ const ColorSelector = ({ colors, selectedColor, onColorSelect }) => {
               selectedColor && selectedColor.hexValue === c.hexValue
                 ? "border-black"
                 : "border-transparent"
+            
             }`}
             onClick={() => onColorSelect(c)}
+            data-testid="product-color-select"
           >
             <div
               className="h-5 w-5 rounded-full"
