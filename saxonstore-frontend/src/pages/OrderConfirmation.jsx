@@ -84,15 +84,15 @@ function OrderConfirmation() {
 
       <div className="mt-8 grid grid-cols-1 gap-12 md:grid-cols-2">
         <div>
-          <div className="grid grid-cols-2 gap-3">
-            <div>
+          <div className="grid grid-cols-2 gap-3" data-testid="order-${value}">
+            <div data-testid="order-first-name" >
               <InputComponent
                 title="First Name"
                 value={firstName}
                 setValue={setFirstName}
               />
             </div>
-            <div>
+            <div data-testid="order-last-name" >
               <InputComponent
                 title="Last Name"
                 value={lastName}
@@ -100,21 +100,25 @@ function OrderConfirmation() {
               />
             </div>
           </div>
+          <div data-testid="order-address">
           <InputComponent
             className="mt-8"
             title="Address"
             value={address}
             setValue={setAddress}
+            data-testid="address"
           />
-          <div className="mt-8 grid grid-cols-2 gap-3">
-            <div>
-              <InputComponent title="City" value={city} setValue={setCity} />
+          </div>
+          <div  className="mt-8 grid grid-cols-2 gap-3">
+            <div data-testid="oder-city">
+              <InputComponent title="City" value={city} setValue={setCity}/>
             </div>
-            <div>
+            <div data-testid="order-postal-code">
               <InputComponent
                 title="Postal Code"
                 value={postalCode}
                 setValue={setPostalCode}
+
               />
             </div>
           </div>

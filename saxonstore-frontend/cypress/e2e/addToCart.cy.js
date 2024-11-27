@@ -1,21 +1,8 @@
 describe("Product Details Page Tests", () => {
     before(() => {
         // Log in and save the session
-        cy.session("user-session", () => {
-            cy.visit("http://localhost:3000/sign-in");
+        cy.loginSession(); // Use the shared login session
 
-            // Enter email and password
-            cy.get('input[placeholder="Enter your email"]').type('wijesekarathinuri@gmail.com');
-            cy.get('input[placeholder="Enter your password"]').type('abcd@1234');
-
-            // Submit the form
-            cy.contains('Log In').click();
-
-            // Ensure login was successful
-            cy.url().should("not.include", "/sign-in");
-
-
-        });
     });
 
     beforeEach(() => {
@@ -38,7 +25,7 @@ describe("Product Details Page Tests", () => {
                 cy.log("Product card clicked.");
             });
 
-        // selecting the color and product size and addding to the cart
+        // selecting the color and product size and adding to the cart
         cy.get("[data-testid=product-color-select]")
             .should('exist')
             .and('be.visible')

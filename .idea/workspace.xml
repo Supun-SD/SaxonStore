@@ -5,37 +5,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c94ef4d1-48fe-4b46-af15-e1ba750a06a4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_11_24_2024_3_03_AM_[Changes]/shelved.patch" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_11_24_2024_3_03_AM__Changes_.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/addToCart.cy.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/login.cy.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/product.cy.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/signup.cy.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore.bak" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/IdeaProjects.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/prettier.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/saxston.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/home.cy.js" beforeDir="false" afterPath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/home.cy.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/spec.cy.js" beforeDir="false" afterPath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/spec.cy.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/screenshots/home.cy.js/Home Page -- displays loading skeletons during data fetching (failed).png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/screenshots/home.cy.js/Home Page -- displays new arrivals correctly (failed).png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/screenshots/home.cy.js/Home Page -- handles API errors gracefully (failed).png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/screenshots/home.cy.js/Home Page -- renders the page layout (failed).png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/screenshots/home.cy.js/Home Page -- uses session storage for caching (failed).png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/saxonstore-frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/src/components/Button.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/saxonstore-frontend/src/components/Button.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/src/components/ColorSelector.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/saxonstore-frontend/src/components/ColorSelector.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/src/components/ProductCard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/saxonstore-frontend/src/components/ProductCard.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/src/components/SizeSelector.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/saxonstore-frontend/src/components/SizeSelector.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/src/pages/Cart.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/saxonstore-frontend/src/pages/Cart.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/src/pages/ProductDetails.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/saxonstore-frontend/src/pages/ProductDetails.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/src/pages/SignUp.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/saxonstore-frontend/src/pages/SignUp.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/checkout.cy.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/saxonstore-frontend/cypress.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/1-getting-started/todo.cy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/2-advanced-examples/actions.cy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/2-advanced-examples/aliasing.cy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/2-advanced-examples/assertions.cy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/2-advanced-examples/connectors.cy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/2-advanced-examples/cookies.cy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/2-advanced-examples/cypress_api.cy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/2-advanced-examples/files.cy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/2-advanced-examples/location.cy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/2-advanced-examples/misc.cy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/2-advanced-examples/navigation.cy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/2-advanced-examples/network_requests.cy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/2-advanced-examples/querying.cy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/2-advanced-examples/spies_stubs_clocks.cy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/2-advanced-examples/storage.cy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/2-advanced-examples/traversal.cy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/2-advanced-examples/utilities.cy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/2-advanced-examples/viewport.cy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/2-advanced-examples/waiting.cy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/2-advanced-examples/window.cy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/addToCart.cy.js" beforeDir="false" afterPath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/addToCart.cy.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/support/e2e.js" beforeDir="false" afterPath="$PROJECT_DIR$/saxonstore-frontend/cypress/support/e2e.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/src/pages/Checkout.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/saxonstore-frontend/src/pages/Checkout.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/src/pages/OrderConfirmation.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/saxonstore-frontend/src/pages/OrderConfirmation.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,35 +62,49 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Cypress.all tests in signIn.cy.js.executor&quot;: &quot;Run&quot;,
-    &quot;Cypress.all tests in signup.js.executor&quot;: &quot;Run&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Spring Boot.SaxonstoreBackendApplication.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;dev-copy2&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/thin/EAD/saxonstore-frontend/cypress/e2e&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Thinuri\\AppData\\Local\\JetBrains\\IntelliJ IDEA 2024.2.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Cypress.all tests in addToCart.cy.js.executor": "Run",
+    "Cypress.all tests in signIn.cy.js.executor": "Run",
+    "Cypress.all tests in signup.js.executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.SaxonstoreBackendApplication.executor": "Run",
+    "git-widget-placeholder": "dev-copy2",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/thin/EAD/saxonstore-frontend/cypress/e2e",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "C:\\Users\\Thinuri\\AppData\\Local\\JetBrains\\IntelliJ IDEA 2024.2.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\thin\EAD\saxonstore-frontend\cypress\e2e" />
     </key>
   </component>
-  <component name="RunManager" selected="Spring Boot.SaxonstoreBackendApplication">
+  <component name="RunManager" selected="Cypress.all tests in addToCart.cy.js">
+    <configuration name="all tests in addToCart.cy.js" type="JavaScriptTestRunnerCypress" temporary="true">
+      <node-interpreter value="project" />
+      <cypress-package value="$PROJECT_DIR$/saxonstore-frontend/node_modules/cypress" />
+      <working-dir value="$PROJECT_DIR$/saxonstore-frontend" />
+      <cypress-options value="-q" />
+      <envs />
+      <scope-kind value="SUITE" />
+      <test-file value="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/addToCart.cy.js" />
+      <test-names>
+        <test-name value="Product Details Page Tests" />
+      </test-names>
+      <method v="2" />
+    </configuration>
     <configuration name="all tests in signIn.cy.js" type="JavaScriptTestRunnerCypress" temporary="true">
       <node-interpreter value="project" />
       <cypress-package value="$PROJECT_DIR$/saxonstore-frontend/node_modules/cypress" />
@@ -130,6 +140,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Cypress.all tests in addToCart.cy.js" />
         <item itemvalue="Cypress.all tests in signup.js" />
         <item itemvalue="Cypress.all tests in signIn.cy.js" />
       </list>
