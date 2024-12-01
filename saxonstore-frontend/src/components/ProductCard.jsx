@@ -16,8 +16,9 @@ function ProductCard({ product }) {
       className="flex cursor-pointer justify-center rounded"
       onClick={handleClick}
     >
-      <div className="w-full flex-col">
-        <div className="h-64 w-full overflow-hidden">
+      <div className="w-full flex-col" >
+        <div className="h-64 w-full overflow-hidden"
+             data-testid={`product-card-${product.productId}`}>
           <img
             src={primaryImage}
             alt="product image"

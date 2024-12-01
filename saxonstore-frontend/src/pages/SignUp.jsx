@@ -230,7 +230,7 @@ function SignUp() {
                 <SyncLoader size={8} />
               </div>
             ) : (
-              <div className="pt-3">
+              <div className="pt-3" data-testid ="submit-toast">
                 <button
                   type="submit"
                   className="h-12 w-full rounded-l border border-gray-900 bg-white text-xl font-normal text-black transition-colors duration-200 hover:bg-gray-800 hover:text-white"

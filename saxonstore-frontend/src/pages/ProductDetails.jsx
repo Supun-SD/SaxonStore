@@ -94,8 +94,8 @@ function ProductDetails() {
         </div>
 
         <div>
-          <div className="font-serif text-3xl">{product.name}</div>
-          <div className="font-serif text-2xl">
+          <div className="font-serif text-3xl" data-testid="product-title" >{product.name}</div>
+          <div className="font-serif text-2xl " data-testid="product-price">
             LKR {product.price.toFixed(2)}
           </div>
 
@@ -129,7 +129,7 @@ function ProductDetails() {
           </div>
 
           {selectedProductVariant && (
-            <div className="mt-10 w-[50%]">
+            <div className="mt-10 w-[50%]" data-testid="add-to-cart-button">
               <Button
                 text="ADD TO CART"
                 onClick={() => {

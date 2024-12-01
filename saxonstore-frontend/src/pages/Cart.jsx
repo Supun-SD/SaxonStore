@@ -71,6 +71,7 @@ function Cart() {
         {cartItems.length !== 0 && (
           <Button
             text="CHECKOUT"
+            data-testid="checkout-button"
             onClick={() => {
               navigate("/order-confirmation");
             }}
