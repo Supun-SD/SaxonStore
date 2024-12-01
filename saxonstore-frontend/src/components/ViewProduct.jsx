@@ -1,4 +1,5 @@
 function ViewProduct({ product }) {
+  console.log(product);
   const colors = [...new Set(product.productVariants.map((v) => v.color.name))];
 
   const sizes = ["XS", "S", "M", "L", "XL", "XXL"];
@@ -22,7 +23,7 @@ function ViewProduct({ product }) {
         {product.productImages.map((image, index) => (
           <div className="h-24 w-24 overflow-hidden" key={index}>
             <img
-              src={image}
+              src={image.imageUrl}
               alt={`Product image ${index + 1}`}
               className="h-full w-full object-cover"
             />

@@ -280,11 +280,11 @@ function AddProduct() {
                 </div>
               </div>
               {availableColors.length !== 0 && (
-                <div className="mt-8 flex gap-2">
+                <div className="mt-8 grid grid-cols-6 gap-2">
                   {availableColors.map((c) => (
                     <div
                       key={c.colorId}
-                      className="group relative rounded-lg px-4 py-2 text-white"
+                      className="group relative flex items-center justify-center rounded-lg px-4 py-2 text-white"
                       style={{ backgroundColor: c.hexValue }}
                     >
                       {c.name}
