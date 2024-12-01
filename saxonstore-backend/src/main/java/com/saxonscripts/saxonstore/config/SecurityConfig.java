@@ -63,15 +63,15 @@ public class SecurityConfig {
         .csrf(csrf -> csrf.disable()) // Disable CSRF for simplicity (not recommended for production)
         .authorizeHttpRequests(authorize -> authorize
             .requestMatchers(
-              "/users/login",
-             "/users/forgotPassword",
-             "/users/resetPassword",
-             "/users/createUser",
+              "/user/login",
+             "/user/forgotPassword",
+             "/user/resetPassword",
+             "/user/createUser",
              "/error",
              "/product/**"
              )
              .permitAll() // Allow these endpoints without authentication
-            .requestMatchers("/users/**").hasRole("CUSTOMER")
+            .requestMatchers("/user/**").hasRole("CUSTOMER")
             .requestMatchers("/admin/**").hasRole("ADMIN")
             .anyRequest().authenticated()) // Require authentication for any other requests (request that doesn't need a specific role )
             .oauth2ResourceServer(oauth2 -> oauth2
@@ -155,4 +155,9 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+
+
+
+
+
 }

@@ -5,6 +5,7 @@ const Button = ({ text, onClick }) => {
       onClick={onClick}
     >
       {text}
+
     </button>
   );
 };

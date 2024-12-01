@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="c94ef4d1-48fe-4b46-af15-e1ba750a06a4" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/checkout.cy.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/saxonstore-frontend/cypress.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/1-getting-started/todo.cy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/2-advanced-examples/actions.cy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/2-advanced-examples/aliasing.cy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/2-advanced-examples/assertions.cy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/2-advanced-examples/connectors.cy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/2-advanced-examples/cookies.cy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/2-advanced-examples/cypress_api.cy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/2-advanced-examples/files.cy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/2-advanced-examples/location.cy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/2-advanced-examples/misc.cy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/2-advanced-examples/navigation.cy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/2-advanced-examples/network_requests.cy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/2-advanced-examples/querying.cy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/2-advanced-examples/spies_stubs_clocks.cy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/2-advanced-examples/storage.cy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/2-advanced-examples/traversal.cy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/2-advanced-examples/utilities.cy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/2-advanced-examples/viewport.cy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/2-advanced-examples/waiting.cy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/2-advanced-examples/window.cy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/addToCart.cy.js" beforeDir="false" afterPath="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/addToCart.cy.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/cypress/support/e2e.js" beforeDir="false" afterPath="$PROJECT_DIR$/saxonstore-frontend/cypress/support/e2e.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/src/pages/Checkout.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/saxonstore-frontend/src/pages/Checkout.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saxonstore-frontend/src/pages/OrderConfirmation.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/saxonstore-frontend/src/pages/OrderConfirmation.jsx" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Thinuriw&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Supun-SD/SaxonStore.git&quot;,
+    &quot;accountId&quot;: &quot;54cbaa6c-0eda-4508-8a9a-e4b7cdebaed9&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="2pGdKQlg1MeHMPAlUxJ6JojsNRm" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Cypress.all tests in addToCart.cy.js.executor": "Run",
+    "Cypress.all tests in signIn.cy.js.executor": "Run",
+    "Cypress.all tests in signup.js.executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.SaxonstoreBackendApplication.executor": "Run",
+    "git-widget-placeholder": "dev-copy2",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/thin/EAD/saxonstore-frontend/cypress/e2e",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "C:\\Users\\Thinuri\\AppData\\Local\\JetBrains\\IntelliJ IDEA 2024.2.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\thin\EAD\saxonstore-frontend\cypress\e2e" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Cypress.all tests in addToCart.cy.js">
+    <configuration name="all tests in addToCart.cy.js" type="JavaScriptTestRunnerCypress" temporary="true">
+      <node-interpreter value="project" />
+      <cypress-package value="$PROJECT_DIR$/saxonstore-frontend/node_modules/cypress" />
+      <working-dir value="$PROJECT_DIR$/saxonstore-frontend" />
+      <cypress-options value="-q" />
+      <envs />
+      <scope-kind value="SUITE" />
+      <test-file value="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/addToCart.cy.js" />
+      <test-names>
+        <test-name value="Product Details Page Tests" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="all tests in signIn.cy.js" type="JavaScriptTestRunnerCypress" temporary="true">
+      <node-interpreter value="project" />
+      <cypress-package value="$PROJECT_DIR$/saxonstore-frontend/node_modules/cypress" />
+      <working-dir value="$PROJECT_DIR$/saxonstore-frontend" />
+      <cypress-options value="-q" />
+      <envs />
+      <scope-kind value="SUITE" />
+      <test-file value="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/signIn.cy.js" />
+      <test-names>
+        <test-name value="Sign Up Page" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="all tests in signup.js" type="JavaScriptTestRunnerCypress" temporary="true">
+      <node-interpreter value="project" />
+      <cypress-package value="$PROJECT_DIR$/saxonstore-frontend/node_modules/cypress" />
+      <working-dir value="$PROJECT_DIR$/saxonstore-frontend" />
+      <cypress-options value="-q" />
+      <envs />
+      <scope-kind value="SUITE" />
+      <test-file value="$PROJECT_DIR$/saxonstore-frontend/cypress/e2e/signup.js" />
+      <test-names>
+        <test-name value="Sign Up Page" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="SaxonstoreBackendApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="saxonstore" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.saxonscripts.saxonstore.SaxonstoreBackendApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Cypress.all tests in addToCart.cy.js" />
+        <item itemvalue="Cypress.all tests in signup.js" />
+        <item itemvalue="Cypress.all tests in signIn.cy.js" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-b114ca120d71-intellij.indexing.shared.core-IU-242.21829.227" />
+        <option value="bundled-js-predefined-d6986cc7102b-7c0b70fcd90d-JavaScript-IU-242.21829.227" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c94ef4d1-48fe-4b46-af15-e1ba750a06a4" name="Changes" comment="" />
+      <created>1732396281423</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1732396281423</updated>
+      <workItem from="1732396282541" duration="24678000" />
+      <workItem from="1732645475754" duration="597000" />
+      <workItem from="1732717854829" duration="75000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/unitTests" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

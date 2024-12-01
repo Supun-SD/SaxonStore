@@ -3,10 +3,11 @@ import { motion } from "framer-motion";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { Link } from "react-router-dom";
 import { ShoppingCart } from "lucide-react";
+import { useSelector } from "react-redux";
 
 export default function MobMenu({ Menus }) {
-  const isLoggedIn = false;
-  const userRole = "admin";
+  const isLoggedIn = useSelector((state) => state.user.isAuthenticated);
+  const userRole = useSelector((state) => state.user.role);
 
   const [isOpen, setIsOpen] = useState(false);
   const [clicked, setClicked] = useState(null);
@@ -68,8 +69,8 @@ export default function MobMenu({ Menus }) {
                       <div className="font-bold">Women&apos;s wear</div>
                     </div>
                     <div className="my-6 grid grid-cols-2 gap-4">
-                      {subMenu.map(({ name, nav }) => (
-                        <Link key={name} to={nav}>
+                      {subMenu.map(({ name, nav, key }) => (
+                        <Link key={key} to={nav}>
                           <div className="cursor-pointer">{name}</div>
                         </Link>
                       ))}

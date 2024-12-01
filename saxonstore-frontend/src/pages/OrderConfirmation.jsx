@@ -4,7 +4,7 @@ import Button from "../components/Button";
 import { useNavigate } from "react-router-dom";
 import OrderItem from "../components/OrderItem";
 import { useSelector } from "react-redux";
-import { useToast } from "../hooks/use-toast";
+import { showToast } from "../lib/toast";
 
 function OrderConfirmation() {
   const user = useSelector((state) => state.user.user);
@@ -20,7 +20,6 @@ function OrderConfirmation() {
   const cartTotal = useSelector((state) => state.cart.cartTotal);
 
   const navigate = useNavigate();
-  const { toast } = useToast();
 
   function isValidPhoneNumber(phoneNumber) {
     const phoneRegex = /^7\d{8}$/;
@@ -41,25 +40,25 @@ function OrderConfirmation() {
       postalCode === "" ||
       contactNo === ""
     ) {
-      toast({
+      showToast({
+        type: "error",
         description: "Required fields cannot be empty",
-        className: "border border-red-500 rounded-lg p-4",
       });
       return;
     }
 
     if (!isValidPhoneNumber(contactNo)) {
-      toast({
+      showToast({
+        type: "error",
         description: "Enter a valid contact number",
-        className: "border border-red-500 rounded-lg p-4",
       });
       return;
     }
 
     if (!isValidPostalCode(postalCode)) {
-      toast({
+      showToast({
+        type: "error",
         description: "Enter a valid postal code",
-        className: "border border-red-500 rounded-lg p-4",
       });
       return;
     }
@@ -85,15 +84,15 @@ function OrderConfirmation() {
 
       <div className="mt-8 grid grid-cols-1 gap-12 md:grid-cols-2">
         <div>
-          <div className="grid grid-cols-2 gap-3">
-            <div>
+          <div className="grid grid-cols-2 gap-3" data-testid="order-${value}">
+            <div data-testid="order-first-name" >
               <InputComponent
                 title="First Name"
                 value={firstName}
                 setValue={setFirstName}
               />
             </div>
-            <div>
+            <div data-testid="order-last-name" >
               <InputComponent
                 title="Last Name"
                 value={lastName}
@@ -101,21 +100,25 @@ function OrderConfirmation() {
               />
             </div>
           </div>
+          <div data-testid="order-address">
           <InputComponent
             className="mt-8"
             title="Address"
             value={address}
             setValue={setAddress}
+            data-testid="address"
           />
-          <div className="mt-8 grid grid-cols-2 gap-3">
-            <div>
-              <InputComponent title="City" value={city} setValue={setCity} />
+          </div>
+          <div  className="mt-8 grid grid-cols-2 gap-3">
+            <div data-testid="oder-city">
+              <InputComponent title="City" value={city} setValue={setCity}/>
             </div>
-            <div>
+            <div data-testid="order-postal-code">
               <InputComponent
                 title="Postal Code"
                 value={postalCode}
                 setValue={setPostalCode}
+
               />
             </div>
           </div>

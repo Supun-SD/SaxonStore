@@ -1,5 +1,3 @@
-import sampleImage from "../assets/sample.jpg";
-
 export default function OrderItem({ item }) {
   return (
     <>
@@ -10,7 +8,7 @@ export default function OrderItem({ item }) {
         <div className="col-span-1 justify-start">
           <div className="h-16 w-16 overflow-hidden">
             <img
-              src={sampleImage}
+              src={item.imgURL}
               alt="product image"
               className="h-full w-full object-cover"
             />

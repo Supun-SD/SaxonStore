@@ -3,13 +3,16 @@ import { SyncLoader } from "react-spinners";
 import { useSelector } from "react-redux";
 import { getAllSizes } from "../services/sizeService";
 import { getAllColors } from "../services/colorService";
-import { toast } from "../hooks/use-toast";
 import InputComponent from "../components/InputComponent";
 import Button from "../components/Button";
 import { Plus } from "lucide-react";
 import { createProduct } from "../services/productService";
 import { useNavigate } from "react-router-dom";
 import SelectInput from "../components/SelectInput";
+import { showToast } from "../lib/toast";
+
+import CloudinaryUploadWidget from "../components/CloudinaryUploadWidget";
+import { Cloudinary } from "@cloudinary/url-gen";
 
 function AddProduct() {
   const [isColorsLoading, setIsColorsLoading] = useState(false);
@@ -31,6 +34,27 @@ function AddProduct() {
   const [description, setDescription] = useState(null);
   const [productVariants, setProductVariants] = useState([]);
 
+  const cloudName = "dw6wtjqgd";
+  const uploadPreset = "my_preset";
+
+  const [uploadedImages, setUploadedImages] = useState([]);
+  const [uwConfig] = useState({
+    cloudName,
+    uploadPreset,
+    folder: "saxonstore",
+  });
+
+  const cld = new Cloudinary({
+    cloud: {
+      cloudName,
+    },
+  });
+
+  const handleImageUpload = (publicId) => {
+    const image = cld.image(publicId).toURL();
+    setUploadedImages((prevImages) => [...prevImages, image]);
+  };
+
   useEffect(() => {
     const fetchColorsAndSizes = async () => {
       const controller = new AbortController();
@@ -42,15 +66,15 @@ function AddProduct() {
         const sizesResponse = await getAllSizes(token, {
           signal: controller.signal,
         });
-        setColors(colorsResponse.data.data);
-        setSizes(sizesResponse.data.data);
-        setSelectedColor(colorsResponse.data.data[0]);
+        setColors(colorsResponse.data.data || []);
+        setSizes(sizesResponse.data.data || []);
+        setSelectedColor(colorsResponse.data.data?.[0] || null);
       } catch (error) {
         if (error.name !== "AbortError") {
           console.error("Error getting colors and sizes:", error);
-          toast({
+          showToast({
+            type: "error",
             description: "There was a problem getting colors and sizes",
-            className: "border border-red-500 rounded-lg p-4",
           });
         }
       } finally {
@@ -68,14 +92,14 @@ function AddProduct() {
       !availableColors.some((color) => color.colorId === selectedColor.colorId)
     ) {
       setAvailableColors([...availableColors, selectedColor]);
-      toast({
+      showToast({
+        type: "success",
         description: `${selectedColor.name} added to available colors.`,
-        className: "border border-green-500 rounded-lg p-4",
       });
     } else {
-      toast({
+      showToast({
+        type: "error",
         description: `${selectedColor.name} is already in available colors.`,
-        className: "border border-yellow-500 rounded-lg p-4",
       });
     }
   };
@@ -121,27 +145,34 @@ function AddProduct() {
 
   const handleAddProduct = async () => {
     if (title === null || price === null) {
-      toast({
+      showToast({
+        type: "error",
         description: "Required fields cannot be empty",
-        className: "border border-red-500 rounded-lg p-4",
       });
       return;
     }
 
     if (productVariants.length === 0) {
-      toast({
+      showToast({
+        type: "error",
         description: "Please select colors and sizes",
-        className: "border border-red-500 rounded-lg p-4",
       });
       return;
     }
 
     if (!Number.isInteger(parseFloat(price))) {
-      toast({
+      showToast({
+        type: "error",
         description: "Enter a valid price",
-        className: "border border-red-500 rounded-lg p-4",
       });
       return;
+    }
+
+    if (uploadedImages.length === 0) {
+      showToast({
+        type: "error",
+        description: "Upload at least one image",
+      });
     }
     setIsLoading(true);
 
@@ -153,27 +184,25 @@ function AddProduct() {
       subcategory,
       isListed: true,
       productVariants,
-      productImages: [
-        {
-          imageUrl: "https://sampleurl.com",
-          isPrimary: true,
-        },
-      ],
+      productImages: uploadedImages.map((url, index) => ({
+        imageUrl: url,
+        isPrimary: index === 0,
+      })),
     };
 
     try {
       await createProduct(product);
-      toast({
+      showToast({
+        type: "success",
         description: "Product has been listed successfully",
-        className: "border border-green-500 rounded-lg p-4",
       });
       navigate(-1);
     } catch (error) {
       console.error("Error listing the product:", error);
-      toast({
+      showToast({
+        type: "error",
         description:
           "An error occurred while listing the product. Please try again.",
-        className: "border border-red-500 rounded-lg p-4",
       });
     } finally {
       setIsLoading(false);
@@ -227,7 +256,7 @@ function AddProduct() {
                 <div className="col-span-4">
                   <SelectInput
                     title="Colors"
-                    options={colors.map((color) => ({
+                    options={(colors || []).map((color) => ({
                       value: color.colorId,
                       name: color.name,
                     }))}
@@ -312,6 +341,23 @@ function AddProduct() {
             className="mt-12"
             height="100px"
           />
+          <div className="mt-8 flex gap-2">
+            {uploadedImages.map((url, index) => (
+              <div className="h-20 w-20 overflow-hidden" key={index}>
+                <img
+                  src={url}
+                  alt={`Product image ${index + 1}`}
+                  className="h-full w-full object-cover"
+                />
+              </div>
+            ))}
+          </div>
+          <div className="mt-5">
+            <CloudinaryUploadWidget
+              uwConfig={uwConfig}
+              setPublicId={handleImageUpload}
+            />
+          </div>
         </div>
         <div>
           <div>

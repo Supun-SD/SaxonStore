@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
-import { useToast } from "../hooks/use-toast";
+import { showToast } from "../lib/toast";
 import { clearCart } from "../features/cartSlice";
 
 import OrderItem from "../components/OrderItem";
@@ -17,7 +17,6 @@ function Checkout() {
   const location = useLocation();
   const { firstName, lastName, address, city, postalCode, contactNo, note } =
     location.state || {};
-
   const cartItems = useSelector((state) => state.cart.cartItems);
   const cartTotal = useSelector((state) => state.cart.cartTotal);
 
@@ -30,8 +29,6 @@ function Checkout() {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const { toast } = useToast();
 
   const onCheckoutClick = async (status) => {
     setIsLoading(true);
@@ -67,16 +64,16 @@ function Checkout() {
       await placeOrder(order, token);
       dispatch(clearCart());
       navigate("/cart");
-      toast({
+      showToast({
+        type: "success",
         description: "Your order has been placed successfully",
-        className: "border border-green-500 rounded-lg p-4",
       });
     } catch (error) {
       console.error("Error placing order:", error);
-      toast({
+      showToast({
+        type: "error",
         description:
           "An error occurred while placing your order. Please try again.",
-        className: "border border-red-500 rounded-lg p-4",
       });
     } finally {
       setIsLoading(false);
@@ -91,7 +88,7 @@ function Checkout() {
             <div className="flex-center w-full justify-between font-serif text-2xl">
               CONTACT INFORMATION
             </div>
-            <div className="mt-5 grid grid-cols-5 gap-y-4">
+            <div className="mt-5 grid grid-cols-5 gap-y-4" >
               {[
                 { label: "Name", value: firstName + " " + lastName },
                 { label: "Contact No", value: "+94" + contactNo },
@@ -106,7 +103,8 @@ function Checkout() {
                   <div className="col-span-2 border-b border-gray-200 pb-2">
                     {item.label}
                   </div>
-                  <div className="col-span-3 border-b border-gray-200 pb-2">
+                  <div className="col-span-3 border-b border-gray-200 pb-2"
+                       >
                     {item.value}
                   </div>
                 </React.Fragment>
@@ -160,7 +158,7 @@ function Checkout() {
               <div className="mt-4">
                 <div className="text-lg">Select your payment method</div>
                 <div className="my-6 flex justify-around">
-                  <div
+                  <div data-testid="checkout-cod"
                     className="w-26 h-14 cursor-pointer overflow-hidden rounded-xl"
                     onClick={() => onCheckoutClick("NOT PAID")}
                   >
@@ -170,7 +168,7 @@ function Checkout() {
                       className="h-full w-full object-cover"
                     />
                   </div>
-                  <div
+                  <div data-testid="checkout-card"
                     className="w-26 h-14 cursor-pointer overflow-hidden rounded-xl"
                     onClick={() => onCheckoutClick("PAID")}
                   >

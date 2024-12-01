@@ -2,7 +2,7 @@ import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import LoadingSekeleton from "../components/LoadingSekeleton";
 import { getProductsByCategory } from "../services/productService";
-import { toast } from "../hooks/use-toast";
+import { showToast } from "../lib/toast";
 import ProductCard from "../components/ProductCard";
 
 function Products() {
@@ -25,9 +25,9 @@ function Products() {
           : setProducts(response.data.data);
       } catch (error) {
         console.error("Error getting products:", error);
-        toast({
+        showToast({
+          type: "error",
           description: "There was a problem getting products",
-          className: "border border-red-500 rounded-lg p-4",
         });
       } finally {
         setIsLoading(false);

@@ -8,6 +8,7 @@ import {
   FormLabel,
   FormControl,
 } from "@/components/ui/form";
+import { showToast } from "../lib/toast";
 
 const contactUsSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -40,11 +41,18 @@ function ContactUs() {
       }
 
       console.log("Message sent successfully!");
-      alert("Your message has been sent.");
+      showToast({
+        type: "success",
+        description: "Your message has been sent.",
+      });
       form.reset();
     } catch (error) {
       console.error("Error submitting contact form:", error);
-      alert("There was an issue submitting the form. Please try again.");
+      showToast({
+        type: "error",
+        description:
+          "There was an issue submitting the form. Please try again.",
+      });
     }
   };
 
