@@ -88,7 +88,7 @@ function Checkout() {
             <div className="flex-center w-full justify-between font-serif text-2xl">
               CONTACT INFORMATION
             </div>
-            <div className="mt-5 grid grid-cols-5 gap-y-4">
+            <div className="mt-5 grid grid-cols-5 gap-y-4" >
               {[
                 { label: "Name", value: firstName + " " + lastName },
                 { label: "Contact No", value: "+94" + contactNo },
@@ -103,7 +103,8 @@ function Checkout() {
                   <div className="col-span-2 border-b border-gray-200 pb-2">
                     {item.label}
                   </div>
-                  <div className="col-span-3 border-b border-gray-200 pb-2">
+                  <div className="col-span-3 border-b border-gray-200 pb-2"
+                       >
                     {item.value}
                   </div>
                 </React.Fragment>
@@ -157,7 +158,7 @@ function Checkout() {
               <div className="mt-4">
                 <div className="text-lg">Select your payment method</div>
                 <div className="my-6 flex justify-around">
-                  <div
+                  <div data-testid="checkout-cod"
                     className="w-26 h-14 cursor-pointer overflow-hidden rounded-xl"
                     onClick={() => onCheckoutClick("NOT PAID")}
                   >
@@ -167,7 +168,7 @@ function Checkout() {
                       className="h-full w-full object-cover"
                     />
                   </div>
-                  <div
+                  <div data-testid="checkout-card"
                     className="w-26 h-14 cursor-pointer overflow-hidden rounded-xl"
                     onClick={() => onCheckoutClick("PAID")}
                   >
