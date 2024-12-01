@@ -1,5 +1,4 @@
 function ViewProduct({ product }) {
-  console.log(product);
   const colors = [...new Set(product.productVariants.map((v) => v.color.name))];
 
   const sizes = ["XS", "S", "M", "L", "XL", "XXL"];
