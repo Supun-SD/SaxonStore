@@ -12,6 +12,8 @@ import card from "../assets/card.jpg";
 import { SyncLoader } from "react-spinners";
 
 import { placeOrder } from "../services/orderService";
+import ConfirmationDialog from "../components/ConfirmationDialog";
+import { usePayment } from "../hooks/usePayment";
 
 function Checkout() {
   const location = useLocation();
@@ -30,37 +32,38 @@ function Checkout() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const { handlePayment } = usePayment();
+
   const onCheckoutClick = async (status) => {
     setIsLoading(true);
 
-    const orderProducts = cartItems.map((item) => ({
-      product: {
-        productId: item.productId,
-      },
-      productVariant: {
-        productVariantId: item.productVariantId,
-      },
-      quantity: item.quantity,
-    }));
-
-    const order = {
-      user: {
-        userId: user.userId,
-      },
-      totalAmount: cartTotal + deliveryFee,
-      status,
-      orderProducts,
-      delivery: {
-        firstName,
-        lastName,
-        phone: contactNo,
-        address,
-        city,
-        postalCode,
-        note: note || null,
-      },
-    };
     try {
+      const orderProducts = cartItems.map((item) => ({
+        product: { productId: item.productId },
+        productVariant: { productVariantId: item.productVariantId },
+        quantity: item.quantity,
+      }));
+
+      const order = {
+        user: { userId: user.userId },
+        totalAmount: cartTotal + deliveryFee,
+        status,
+        orderProducts,
+        delivery: {
+          firstName,
+          lastName,
+          phone: contactNo,
+          address,
+          city,
+          postalCode,
+          note: note || null,
+        },
+      };
+
+      if (status === "PAID") {
+        await handlePayment(order, user);
+      }
+
       await placeOrder(order, token);
       dispatch(clearCart());
       navigate("/cart");
@@ -88,7 +91,7 @@ function Checkout() {
             <div className="flex-center w-full justify-between font-serif text-2xl">
               CONTACT INFORMATION
             </div>
-            <div className="mt-5 grid grid-cols-5 gap-y-4" >
+            <div className="mt-5 grid grid-cols-5 gap-y-4">
               {[
                 { label: "Name", value: firstName + " " + lastName },
                 { label: "Contact No", value: "+94" + contactNo },
@@ -103,8 +106,7 @@ function Checkout() {
                   <div className="col-span-2 border-b border-gray-200 pb-2">
                     {item.label}
                   </div>
-                  <div className="col-span-3 border-b border-gray-200 pb-2"
-                       >
+                  <div className="col-span-3 border-b border-gray-200 pb-2">
                     {item.value}
                   </div>
                 </React.Fragment>
@@ -158,17 +160,23 @@ function Checkout() {
               <div className="mt-4">
                 <div className="text-lg">Select your payment method</div>
                 <div className="my-6 flex justify-around">
-                  <div data-testid="checkout-cod"
-                    className="w-26 h-14 cursor-pointer overflow-hidden rounded-xl"
-                    onClick={() => onCheckoutClick("NOT PAID")}
+                  <ConfirmationDialog
+                    action={() => onCheckoutClick("NOT PAID")}
+                    message="Are you sure want to place this as a cash on delivery order"
                   >
-                    <img
-                      src={cod}
-                      alt="product image"
-                      className="h-full w-full object-cover"
-                    />
-                  </div>
-                  <div data-testid="checkout-card"
+                    <div
+                      data-testid="checkout-cod"
+                      className="w-26 h-14 cursor-pointer overflow-hidden rounded-xl"
+                    >
+                      <img
+                        src={cod}
+                        alt="product image"
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
+                  </ConfirmationDialog>
+                  <div
+                    data-testid="checkout-card"
                     className="w-26 h-14 cursor-pointer overflow-hidden rounded-xl"
                     onClick={() => onCheckoutClick("PAID")}
                   >
