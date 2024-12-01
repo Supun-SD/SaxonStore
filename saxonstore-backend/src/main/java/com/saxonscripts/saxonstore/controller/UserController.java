@@ -103,13 +103,17 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseWrapper<String> login(@RequestBody LoginRequestDTO loginRequestDTO) {
+    public ResponseEntity<ResponseWrapper<String>> login(@RequestBody LoginRequestDTO loginRequestDTO) {
         LoginResponseDTO user = userService.login(loginRequestDTO);
         if (user != null) {
             String token = generateToken(user);
-            return new ResponseWrapper<>(HttpStatus.OK.value(), "SUCCESS", "Login successful", token);
+            return ResponseEntity.ok(
+                    new ResponseWrapper<>(HttpStatus.OK.value(), "SUCCESS", "Login successful", token)
+            );
         } else {
-            return new ResponseWrapper<>(HttpStatus.UNAUTHORIZED.value(), "FAILURE", "Invalid email or password", null);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+                    new ResponseWrapper<>(HttpStatus.UNAUTHORIZED.value(), "FAILURE", "Invalid email or password", null)
+            );
         }
     }
 
